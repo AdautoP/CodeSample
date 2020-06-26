@@ -2,9 +2,9 @@ name: CodeSample
 
 options:
   findCarthageFrameworks: true
-  # preGenCommand: swiftgen
-  # generateEmptyDirectories: true
-  # createIntermediateGroups: true
+  preGenCommand: swiftgen
+  generateEmptyDirectories: true
+  createIntermediateGroups: true
 
 targets:
   CodeSample:
@@ -27,6 +27,6 @@ targets:
       - carthage: TinyConstraints
       - carthage: AloeStackView
 
-    # preBuildScripts:
-    #   - script: swiftgen
-    #     name: Swiftgen
+    preBuildScripts:
+      - script: swiftgen
+        name: Swiftgen
