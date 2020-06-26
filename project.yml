@@ -18,6 +18,15 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: "com.adauto.CodeSample"
         MARKETING_VERSION: "1.0.0"
         CURRENT_PROJECT_VERSION: "1"
+        DEVELOPMENT_TEAM: C2BTWK9QR9
+
+      configs:
+        Debug:
+          CODE_SIGN_STYLE: Automatic
+
+        Release:
+          CODE_SIGN_STYLE: Manual
+          PROVISIONING_PROFILE_SPECIFIER: "match AppStore com.adauto.CodeSample"
 
     dependencies:
       - carthage: RxSwift
