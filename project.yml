@@ -25,6 +25,7 @@ targets:
           CODE_SIGN_STYLE: Automatic
 
         Release:
+          CODE_SIGN_IDENTITY: iPhone Distribution
           CODE_SIGN_STYLE: Manual
           PROVISIONING_PROFILE_SPECIFIER: "match AppStore com.adauto.CodeSample"
 
