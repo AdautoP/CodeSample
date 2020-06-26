@@ -16,16 +16,16 @@
 default_platform(:ios)
 
 platform :ios do
-  desc "Push a new release build to the App Store"
+  desc "Push a new release build to the testflight"
   lane :beta do
-    sync_code_signing
+    sync_code_signing(type: "appstore")
     build_app(scheme: "CodeSample")
     upload_to_testflight
   end
 
   desc "Push a new release build to the App Store"
   lane :release do
-    sync_code_signing
+    sync_code_signing(type: "appstore")
     build_app(scheme: "CodeSample")
     upload_to_app_store(
       skip_metadata: true,
