@@ -1,0 +1,4 @@
+github "ReactiveX/RxSwift" "5.1.1"
+github "grsouza/XCoordinator" "2.0.7"
+github "marlimox/AloeStackView" "v1.2.0"
+github "roberthein/TinyConstraints" "4.0.1"
