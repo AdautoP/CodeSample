@@ -6,6 +6,10 @@ options:
   generateEmptyDirectories: true
   createIntermediateGroups: true
 
+projectReferences:
+  Core:
+    path: Modules/Core/Core.xcodeproj
+
 targets:
   CodeSample:
     type: application
@@ -35,6 +39,7 @@ targets:
       - carthage: XCoordinator
       - carthage: TinyConstraints
       - carthage: AloeStackView
+      - target: Core/Core
 
     preBuildScripts:
       - script: swiftgen
