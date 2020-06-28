@@ -5,9 +5,9 @@
 //  Created by adauto.pinheiro on 26/06/20.
 //
 
-import UIKit
-import RxSwift
 import RxCocoa
+import RxSwift
+import UIKit
 
 extension Observable {
     func displayable(retryAction: (() -> Void)?) -> Observable<Display<Element>> {

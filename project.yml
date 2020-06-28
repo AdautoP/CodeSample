@@ -51,3 +51,6 @@ targets:
     preBuildScripts:
       - script: swiftgen
         name: Swiftgen
+      
+      - script: swiftlint
+        name: Swiftlint

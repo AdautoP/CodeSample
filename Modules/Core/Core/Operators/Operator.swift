@@ -15,5 +15,3 @@ func >> <Element>(_ left: Element, right: (inout Element) -> Void ) -> Element {
     right(&mutableLeft)
     return mutableLeft
 }
-
-
