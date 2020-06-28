@@ -1,0 +1,10 @@
+strings:
+  inputs: Components/Resources/Localizable.strings
+  outputs:
+    - templateName: structured-swift4
+      output: Components/Resources/Generated/Strings.generated.swift
+xcassets:
+  inputs: Components/Resources/Assets.xcassets
+  outputs:
+    - templateName: swift4
+      output: Components/Resources/Generated/Assets.swift

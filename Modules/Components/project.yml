@@ -1,0 +1,34 @@
+name: Components
+
+options:
+  generateEmptyDirectories: true
+  createIntermediateGroups: true
+  carthageBuildPath: ../../Carthage/Build
+  preGenCommand: swiftgen
+
+projectReferences:
+  Core: 
+    path: ../Core/Core.xcodeproj
+
+targets:
+  Components:
+    type: framework
+    platform: iOS
+    deploymentTarget: '13.0'
+    sources: Components
+
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: "com.adauto.Components"
+      
+    dependencies:
+      - carthage: RxSwift
+      - carthage: RxCocoa
+      - carthage: XCoordinator
+      - carthage: TinyConstraints
+      - carthage: AloeStackView
+      - target: Core/Core
+
+    preBuildScripts:
+      - script: swiftgen
+        name: Swiftgen

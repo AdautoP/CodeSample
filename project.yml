@@ -9,6 +9,12 @@ options:
 projectReferences:
   Core:
     path: Modules/Core/Core.xcodeproj
+    embed: true
+  
+  Components:
+    path: Modules/Components/Components.xcodeproj
+    embed: true
+  
 
 targets:
   CodeSample:
@@ -40,6 +46,7 @@ targets:
       - carthage: TinyConstraints
       - carthage: AloeStackView
       - target: Core/Core
+      - target: Components/Components
 
     preBuildScripts:
       - script: swiftgen
