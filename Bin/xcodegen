@@ -1,0 +1,6 @@
+#!/bin/sh
+xcodegen
+cd Modules/Core
+xcodegen
+cd ../Components
+xcodegen
