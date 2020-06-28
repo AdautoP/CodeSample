@@ -1,0 +1,21 @@
+name: Core
+
+options:
+  generateEmptyDirectories: true
+  createIntermediateGroups: true
+  carthageBuildPath: ../../Carthage/Build
+
+targets:
+  Core:
+    type: framework
+    platform: iOS
+    deploymentTarget: '13.0'
+    sources: Core
+
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: "com.adauto.Core"
+      
+    dependencies:
+      - carthage: RxSwift
+      - carthage: RxCocoa
