@@ -20,7 +20,10 @@ platform :ios do
   lane :beta do
     sync_code_signing(type: "appstore")
     build_app(scheme: "CodeSample")
-    upload_to_testflight
+    upload_to_testflight(
+      apple_id: "1520695386",
+      skip_waiting_for_build_processing: true
+    )
   end
 
   desc "Push a new release build to the App Store"
