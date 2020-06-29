@@ -1,7 +1,6 @@
 name: CodeSample
 
 options:
-  findCarthageFrameworks: true
   preGenCommand: swiftgen
   generateEmptyDirectories: true
   createIntermediateGroups: true
@@ -42,6 +41,7 @@ targets:
     dependencies:
       - carthage: RxSwift
       - carthage: RxCocoa
+      - carthage: RxRelay
       - carthage: XCoordinator
       - carthage: TinyConstraints
       - carthage: AloeStackView

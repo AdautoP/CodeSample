@@ -19,3 +19,4 @@ targets:
     dependencies:
       - carthage: RxSwift
       - carthage: RxCocoa
+      - carthage: RxRelay
