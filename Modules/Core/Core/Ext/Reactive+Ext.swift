@@ -9,7 +9,7 @@ import RxCocoa
 import RxSwift
 import UIKit
 
-extension Observable {
+public extension Observable {
     func displayable(retryAction: (() -> Void)?) -> Observable<Display<Element>> {
         self
             .map { Display.success($0) }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Display<Value> {
+public enum Display<Value> {
     case idle
     case loading
     case success(Value)

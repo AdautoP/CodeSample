@@ -10,7 +10,7 @@ import UIKit
 infix operator >>: MultiplicationPrecedence
 
 @discardableResult
-func >> <Element>(_ left: Element, right: (inout Element) -> Void ) -> Element {
+public func >> <Element>(_ left: Element, right: (inout Element) -> Void ) -> Element {
     var mutableLeft = left
     right(&mutableLeft)
     return mutableLeft
