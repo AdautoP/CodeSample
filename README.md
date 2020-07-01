@@ -1,6 +1,6 @@
-## Installation
+# Installation
 
-# Pre-requisites
+## Pre-requisites
 You will have to install the following tools:
 
 - [Carthage](https://github.com/Carthage/Carthage)
@@ -9,7 +9,7 @@ You will have to install the following tools:
 - [XcodeGen](https://github.com/yonaskolb/XcodeGen)
 
 
-# Scripts
+## Scripts
 
 While in the project root run the following scripts in order:
 ```sh
