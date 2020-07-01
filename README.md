@@ -11,7 +11,7 @@ You will have to install the following tools:
 
 # Scripts
 
-- While in the project root run the following scripts in order:
+While in the project root run the following scripts in order:
 ```sh
 ./Bin/carthage-bootstrap
 ```
