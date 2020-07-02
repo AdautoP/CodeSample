@@ -2,11 +2,9 @@ os: osx
 language: swift
 osx_image: xcode11.1
 before_install:
+  - bundle install
   - brew update
-  - brew install carthage
-  - brew install xcodegen
-  - brew install swiftgen
-  - brew install swiftlint
+  - brew bundle
 
 script:
   - ./Bin/carthage-bootstrap
