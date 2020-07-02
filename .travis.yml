@@ -6,7 +6,7 @@ before_install:
   - brew bundle
 
 script:
-  - ./Bin/carthage-bootstrap
   - ./Bin/xcodegen
+  - ./Bin/carthage-bootstrap
   - xcodebuild build -project CodeSample.xcodeproj -scheme CodeSample -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
   
