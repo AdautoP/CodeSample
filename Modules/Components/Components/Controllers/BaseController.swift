@@ -26,6 +26,7 @@ open class BaseController: UIViewController {
         view.addSubview(loadingView)
         
         navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.navigationBar.tintColor = AppColors.Grays.black
     }
     
     open func layout(_ display: Display<Any>) {
