@@ -2,7 +2,6 @@ os: osx
 language: swift
 osx_image: xcode11.4
 before_install:
-  - bundle install
   - brew update
   - brew bundle
 
