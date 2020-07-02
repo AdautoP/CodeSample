@@ -14,11 +14,16 @@ class RickyAndMortyService {
     
     static let shared = RickyAndMortyService()
     
-    private let baseUrl = "https://rickandmortyapi.com/api/"
+    private var urlComponents = URLComponents(string: "https://rickandmortyapi.com/api")
     
-    func request<T: Decodable>(path: RickAndMortyEndpoints, withMethod method: RequestMethod, body: [String: Any]? = nil) -> Observable<T> {
-        URLManager.request(path: baseUrl + path.rawValue, withMethod: method, body: body)
+    func request<T: Decodable>(path: RickAndMortyEndpoints, withMethod method: RequestMethod, page: Int? = nil) -> Observable<T> {
+        if let page = page {
+            urlComponents?.queryItems = [URLQueryItem(name: "page", value: String(page))]
+        }
         
+        urlComponents?.path = path.rawValue
+        
+        return URLManager.request(path: urlComponents?.url?.absoluteString ?? "", withMethod: method, body: nil)
     }
 }
 

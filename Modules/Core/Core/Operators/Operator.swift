@@ -7,6 +7,7 @@
 
 import UIKit
 
+prefix operator >>
 infix operator >>: MultiplicationPrecedence
 
 @discardableResult
