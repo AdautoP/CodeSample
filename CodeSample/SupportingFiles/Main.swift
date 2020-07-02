@@ -1,2 +1,2 @@
-@_exported import Core
 @_exported import Components
+@_exported import Core

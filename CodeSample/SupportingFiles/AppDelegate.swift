@@ -20,6 +20,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow()
         window?.makeKeyAndVisible()
         window?.rootViewController = coordinator.rootViewController
+        
+        UIFont.registerFonts()
+        
         return true
     }
 }

@@ -27,6 +27,7 @@ open class BaseController: UIViewController {
         
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationBar.tintColor = AppColors.Grays.black
+        navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.font: UIFont.appFont(size: 24, weight: .bold)]
     }
     
     open func layout(_ display: Display<Any>) {
