@@ -2,13 +2,14 @@ os: osx
 language: swift
 osx_image: xcode11.1
 before_install:
-   - rvm use system
-   - brew install carthage
-   - brew install xcodegen
+  - bundle install
+  - brew install carthage
+  - brew install xcodegen
+  - brew install swiftgen
+  - brew install swiftlint
 
 script:
   - ./Bin/carthage-bootstrap
   - ./Bin/xcodegen
-
-script:
   - xcodebuild build -xcodeproj CodeSample.xcodeproj -scheme CodeSample -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
+  
