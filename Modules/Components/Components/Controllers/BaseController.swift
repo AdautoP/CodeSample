@@ -7,17 +7,28 @@
 
 import UIKit
 
-public class BaseController: UIViewController {
+open class BaseController: UIViewController {
     private lazy var errorView = ErrorView() >> { $0.delegate = self }
     private let loadingView = LoadingView()
     
-    override public func viewDidLoad() {
+    public init() {
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    @available(*, unavailable)
+    public required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override open func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(errorView)
         view.addSubview(loadingView)
+        
+        navigationController?.navigationBar.prefersLargeTitles = true
     }
     
-    func layout(_ display: Display<Any>) {
+    open func layout(_ display: Display<Any>) {
         errorView.layout(display)
         loadingView.layout(display)
     }

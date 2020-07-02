@@ -10,7 +10,6 @@ import UIKit
 open class BaseView: UIView {
     public init() {
         super.init(frame: .zero)
-        translatesAutoresizingMaskIntoConstraints = false
         buildSubviews()
         buildConstraints()
         buildAditionalConfiguration()

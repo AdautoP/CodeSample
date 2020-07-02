@@ -15,12 +15,15 @@ enum AppRoute: Route {
 
 class AppCoordinator: NavigationCoordinator<AppRoute> {
     init() {
-        super.init(rootViewController: BaseNavigationController(), initialRoute: .start)
+        super.init(rootViewController: UINavigationController(), initialRoute: .start)
     }
     
     override func prepareTransition(for route: AppRoute) -> NavigationTransition {
         switch route {
-        case .start: return .push(BaseController())
+        case .start:
+            let viewModel = CharactersListViewModel(router: weakRouter)
+            let controller = CharactersListController(viewModel: viewModel)
+            return .push(controller)
         }
     }
 }
