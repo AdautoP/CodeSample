@@ -13,6 +13,8 @@ open class BaseView: UIView {
         buildSubviews()
         buildConstraints()
         buildAditionalConfiguration()
+        
+        backgroundColor = AppColors.Grays.lightGreen
     }
     
     @available(*, unavailable)

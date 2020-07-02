@@ -24,5 +24,4 @@ enum AppColors {
         /// #E0B251
         static let yellow = UIColor(red: 224, green: 178, blue: 81, alpha: 1)
     }
-    
 }
