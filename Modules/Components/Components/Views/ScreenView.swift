@@ -13,6 +13,13 @@ public enum ScreenRowType {
 }
 
 open class ScreenView: BaseView {
+    
+    private let mainStackView = UIStackView() >> {
+        $0.distribution = .fill
+        $0.axis = .vertical
+        $0.spacing = .zero
+    }
+    
     private let contentStackView = UIStackView() >> {
         $0.distribution = .fill
         $0.axis = .vertical
@@ -27,17 +34,14 @@ open class ScreenView: BaseView {
     
     override open func buildSubviews() {
         super.buildSubviews()
-        addSubview(contentStackView)
-        addSubview(bottomStackView)
+        addSubview(mainStackView)
+        mainStackView.addArrangedSubview(contentStackView)
+        mainStackView.addArrangedSubview(bottomStackView)
     }
     
     override open func buildConstraints() {
         super.buildConstraints()
-        
-        bottomStackView.edgesToSuperview(excluding: .top)
-        
-        contentStackView.edgesToSuperview(excluding: .bottom)
-        contentStackView.bottomToTop(of: bottomStackView)
+        mainStackView.edgesToSuperview()
     }
     
     open func render(_ rows: ScreenRowType? ...) {

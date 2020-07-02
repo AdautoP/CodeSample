@@ -15,7 +15,7 @@ enum AppRoute: Route {
 
 class AppCoordinator: NavigationCoordinator<AppRoute> {
     init() {
-        super.init(rootViewController: UINavigationController(), initialRoute: .start)
+        super.init(rootViewController: BaseNavigationController(), initialRoute: .start)
     }
     
     override func prepareTransition(for route: AppRoute) -> NavigationTransition {

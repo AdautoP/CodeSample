@@ -25,9 +25,14 @@ open class BaseController: UIViewController {
         view.addSubview(errorView)
         view.addSubview(loadingView)
         
+        errorView.edgesToSuperview()
+        loadingView.edgesToSuperview()
+        
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationBar.tintColor = AppColors.Grays.black
-        navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.font: UIFont.appFont(size: 32, weight: .bold)]
+        navigationController?.navigationBar.largeTitleTextAttributes = [
+            NSAttributedString.Key.font: UIFont.appFont(size: 32, weight: .bold)
+        ]
     }
     
     open func layout(_ display: Display<Any>) {

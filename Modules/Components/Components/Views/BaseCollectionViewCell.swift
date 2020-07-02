@@ -1,16 +1,16 @@
 //
-//  BaseView.swift
+//  BaseCollectionViewCell.swift
 //  Components
 //
-//  Created by Adauto Pinheiro on 30/06/20.
+//  Created by Adauto Pinheiro on 02/07/20.
 //
 
 import UIKit
 
-open class BaseView: UIView {
-    public init() {
+open class BaseCollectionViewCell: UICollectionViewCell {
+    
+    init() {
         super.init(frame: .zero)
-        backgroundColor = AppColors.Grays.lightGray
         buildSubviews()
         buildConstraints()
         buildAditionalConfiguration()
@@ -24,5 +24,4 @@ open class BaseView: UIView {
     open func buildSubviews() {}
     open func buildConstraints() {}
     open func buildAditionalConfiguration() {}
-    
 }

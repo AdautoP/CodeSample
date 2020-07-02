@@ -9,11 +9,10 @@ import UIKit
 
 public class BaseNavigationController: UINavigationController {
     
-    init() {
+    public init() {
         super.init(nibName: nil, bundle: nil)
-        navigationBar.shadowImage = nil
-        navigationBar.setBackgroundImage(nil, for: .default)
-        navigationBar.isTranslucent = false
+        navigationBar.shadowImage = UIImage()
+        navigationBar.setBackgroundImage(UIImage(), for: .default)
     }
     
     @available(*, unavailable)
