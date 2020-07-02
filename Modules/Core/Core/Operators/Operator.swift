@@ -8,7 +8,7 @@
 import UIKit
 
 prefix operator >>
-infix operator >>: MultiplicationPrecedence
+//infix operator >>: MultiplicationPrecedence
 
 @discardableResult
 public func >> <Element>(_ left: Element, right: (inout Element) -> Void ) -> Element {

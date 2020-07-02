@@ -14,7 +14,9 @@ public enum URLManager {
     private static let decoder = JSONDecoder() >> { $0.keyDecodingStrategy = .convertFromSnakeCase }
     
     public static func request<T: Decodable>(path: String, withMethod method: RequestMethod, body: [String: Any]? = nil) -> Observable<T> {
-        guard let url = URL(string: path) else { return .error(NetworkErrors.unavailableUrl) }
+        guard let url = URL(string: path) else {
+            return .error(NetworkErrors.unavailableUrl)
+        }
         var request = URLRequest(url: url)
         request.httpMethod = method.rawValue
         

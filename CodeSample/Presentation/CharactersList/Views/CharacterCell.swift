@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CharacterCell: BaseCollectionViewCell {
+class CharacterCell: BaseTableViewCell {
     
     override func buildSubviews() {
         super.buildSubviews()

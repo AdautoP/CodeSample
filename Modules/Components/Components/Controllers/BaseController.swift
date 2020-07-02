@@ -35,7 +35,7 @@ open class BaseController: UIViewController {
         ]
     }
     
-    open func layout(_ display: Display<Any>) {
+    open func layout<T>(_ display: Display<T>) {
         errorView.layout(display)
         loadingView.layout(display)
     }

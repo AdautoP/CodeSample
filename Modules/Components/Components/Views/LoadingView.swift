@@ -10,12 +10,11 @@ import UIKit
 public class LoadingView: BaseView {
     let activityIndicatorView = UIActivityIndicatorView() >> {
         $0.hidesWhenStopped = true
-        $0.style = .medium
+        $0.style = .large
     }
     
     override init() {
         super.init()
-        isHidden = true
         alpha = 0
     }
     
@@ -29,15 +28,14 @@ public class LoadingView: BaseView {
         activityIndicatorView.centerInSuperview()
     }
     
-    public func layout(_ display: Display<Any>) {
+    public func layout<T>(_ display: Display<T>) {
         switch display {
         case .loading: animateIn()
         default: animateOut()
         }
     }
     
-    func animateIn() {
-        isHidden = false
+    private func animateIn() {
         UIView.animate(
         withDuration: 0.2,
         animations: { self.alpha = 1 },
@@ -46,12 +44,11 @@ public class LoadingView: BaseView {
         
     }
     
-    func animateOut() {
+    private func animateOut() {
         activityIndicatorView.stopAnimating()
         UIView.animate(
             withDuration: 0.2,
-            animations: { self.alpha = 0 },
-            completion: { _ in self.isHidden = true }
-            )
+            animations: { self.alpha = 0 }
+        )
     }
 }

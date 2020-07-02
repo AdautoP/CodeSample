@@ -33,23 +33,38 @@ public class ErrorView: ScreenView {
     
     override init() {
         super.init()
-        isHidden = true
+        alpha = 0
     }
     
-    public func layout(_ display: Display<Any>) {
+    public func layout<T>(_ display: Display<T>) {
         switch display {
         case let .failure(_, retryAction): layoutError(retryAction)
-        default: isHidden = true
+        default: animateOut()
         }
     }
     
     private func layoutError(_ retryAction: (() -> Void)?) {
-        isHidden = false
         self.retryAction = retryAction
         render(
             .contentView(imageView),
             .button(exitButton),
             retryAction != nil ? .button(retryButton) : nil
+        )
+        animateIn()
+    }
+    
+    private func animateIn() {
+        UIView.animate(
+        withDuration: 0.2,
+        animations: { self.alpha = 1 }
+        )
+        
+    }
+    
+    private func animateOut() {
+        UIView.animate(
+            withDuration: 0.2,
+            animations: { self.alpha = 0 }
         )
     }
     

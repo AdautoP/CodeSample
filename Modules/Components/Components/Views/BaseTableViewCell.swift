@@ -1,5 +1,5 @@
 //
-//  BaseCollectionViewCell.swift
+//  BaseTableViewCell.swift
 //  Components
 //
 //  Created by Adauto Pinheiro on 02/07/20.
@@ -7,10 +7,10 @@
 
 import UIKit
 
-open class BaseCollectionViewCell: UICollectionViewCell {
+open class BaseTableViewCell: UITableViewCell {
     
     init() {
-        super.init(frame: .zero)
+        super.init(style: .default, reuseIdentifier: Self.identifer)
         buildSubviews()
         buildConstraints()
         buildAditionalConfiguration()
