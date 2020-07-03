@@ -12,18 +12,21 @@ import UIKit
 open class BaseImageView: UIImageView {
     private let disposeBag = DisposeBag()
     
-    var emptyImage: UIImage
-    static let cache = NSCache<NSString, UIImage>()
+    private let viewModel = ImageViewModel()
+    
+    var emptyImage: UIImage {
+        get { viewModel.emptyImage }
+        set { viewModel.emptyImage = newValue }
+    }
     
     private let activityIndicator = UIActivityIndicatorView(style: .large) >> {
         $0.hidesWhenStopped = true
         $0.color = AppColors.Interface.yellow
     }
     
-    public init(image: UIImage? = nil, emptyImage: UIImage = Asset.imageNotFound.image) {
-        self.emptyImage = emptyImage
+    override public init(image: UIImage? = nil) {
         super.init(image: image)
-        self.image = image ?? emptyImage
+        self.image = image
         
         addSubview(activityIndicator)
         activityIndicator.centerInSuperview()
@@ -35,24 +38,9 @@ open class BaseImageView: UIImageView {
     }
     
     open func image(from urlString: String) {
-        if let cachedImage = Self.cache.object(forKey: urlString as NSString) {
-            self.image = cachedImage
-            return
-        }
-        
-        guard let url = URL(string: urlString) else { return }
-        let request = URLRequest(url: url)
-        URLSession
-            .shared
-            .rx
-            .data(request: request)
-            .map { UIImage(data: $0) ?? self.emptyImage }
+        viewModel
+            .getImageFromUrl(urlString)
             .displayable(retryAction: nil)
-            .do(onNext: {
-                if let value = $0.value {
-                    Self.cache.setObject(value, forKey: urlString as NSString)
-                }
-            })
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: {
                 switch $0 {
@@ -61,12 +49,12 @@ open class BaseImageView: UIImageView {
                     self.activityIndicator.startAnimating()
                     
                 case let .success(image):
-                    self.image = image
                     self.activityIndicator.stopAnimating()
+                    self.image = image
                     
                 default:
-                    self.image = self.emptyImage
                     self.activityIndicator.stopAnimating()
+                    self.image = self.emptyImage
                 }
             })
             .disposed(by: disposeBag)
