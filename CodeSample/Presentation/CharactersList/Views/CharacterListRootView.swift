@@ -67,7 +67,7 @@ extension CharactersListRootView: UITableViewDelegate, UITableViewDataSource {
         let contentHeight = scrollView.contentSize.height
         let distanceFromBottom = contentHeight - yOffset
         
-        if contentHeight > height && distanceFromBottom < height {
+        if contentHeight > height && distanceFromBottom < height, tableView.canLoadMorePages {
             delegate?.scrollViewDidEndDragging()
             tableView.loadMorePages()
         }
