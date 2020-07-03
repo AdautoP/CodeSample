@@ -8,14 +8,14 @@
 import UIKit
 
 protocol CharactersListRootViewDelegate: AnyObject {
-    func scrollViewDidScroll()
+    func scrollViewDidEndDragging()
 }
 
 class CharactersListRootView: BaseView {
     
     weak var delegate: CharactersListRootViewDelegate?
     
-    private var characters = [CharacterResponse]() {
+    private var characters = [Character]() {
         didSet { tableView.reloadData() }
     }
     
@@ -25,6 +25,7 @@ class CharactersListRootView: BaseView {
         $0.delegate = self
         $0.dataSource = self
         $0.separatorStyle = .none
+        $0.contentInset = .vertical(8)
     }
     
     @objc func teste() {}
@@ -43,6 +44,7 @@ class CharactersListRootView: BaseView {
         guard let value = display.value else { return }
         switch value {
         case let .success(characters): self.characters += characters
+        case .noMorePages: tableView.footer.noMorePages()
         default: break
         }
     }
@@ -59,14 +61,15 @@ extension CharactersListRootView: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
-    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         let height = scrollView.frame.size.height
         let yOffset = scrollView.contentOffset.y
         let contentHeight = scrollView.contentSize.height
         let distanceFromBottom = contentHeight - yOffset
         
         if contentHeight > height && distanceFromBottom < height {
-            delegate?.scrollViewDidScroll()
+            delegate?.scrollViewDidEndDragging()
+            tableView.footer.startAnimating()
         }
     }
 }

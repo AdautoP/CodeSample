@@ -21,11 +21,15 @@ public typealias AssetImageTypeAlias = ImageAsset.Image
 
 // swiftlint:disable identifier_name line_length nesting type_body_length type_name
 public enum Asset {
-  public static let black = ColorAsset(name: "Black")
-  public static let darkGray = ColorAsset(name: "DarkGray")
-  public static let darkerGray = ColorAsset(name: "DarkerGray")
-  public static let lightGray = ColorAsset(name: "LightGray")
-  public static let yellow = ColorAsset(name: "Yellow")
+  public enum Colors {
+    public static let black = ColorAsset(name: "Colors/Black")
+    public static let darkGray = ColorAsset(name: "Colors/DarkGray")
+    public static let darkerGray = ColorAsset(name: "Colors/DarkerGray")
+    public static let green = ColorAsset(name: "Colors/Green")
+    public static let lightGray = ColorAsset(name: "Colors/LightGray")
+    public static let red = ColorAsset(name: "Colors/Red")
+    public static let yellow = ColorAsset(name: "Colors/Yellow")
+  }
   public static let imageNotFound = ImageAsset(name: "ImageNotFound")
 }
 // swiftlint:enable identifier_name line_length nesting type_body_length type_name

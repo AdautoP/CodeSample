@@ -9,9 +9,16 @@ import UIKit
 
 open class BaseTableView: UITableView {
     
+    public let footer = BaseTableFooterView()
+    
     public init() {
         super.init(frame: .zero, style: .grouped)
-        
+        self.tableFooterView = footer
+    }
+    
+    override open func reloadData() {
+        super.reloadData()
+        footer.stopAnimating()
     }
     
     override public init(frame: CGRect, style: UITableView.Style) {

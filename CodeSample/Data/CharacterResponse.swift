@@ -24,4 +24,9 @@ struct CharacterResponse: Decodable {
     var species: String
     var gender: String
     var image: String
+    var location: Location
+    
+    struct Location: Decodable {
+        var name: String
+    }
 }

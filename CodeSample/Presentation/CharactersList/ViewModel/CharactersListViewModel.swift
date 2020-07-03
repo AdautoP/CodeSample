@@ -13,7 +13,7 @@ class CharactersListViewModel {
     private let router: WeakRouter<AppRoute>
     private let service: RickyAndMortyService
     
-    private var page = 0
+    private var page = 1
     private var lastPage = 99_999
     
     init(router: WeakRouter<AppRoute>, service: RickyAndMortyService = .init()) {
@@ -25,16 +25,17 @@ class CharactersListViewModel {
         service
             .request(path: .allCharacters, withMethod: .get)
             .do(onNext: { self.lastPage = $0.info.pages })
-            .map { .success($0.results) }
+            .map { .success($0.results.map { Character($0) }) }
             .catchError(handleError)
     }
     
     func getNewPage() -> Observable<State> {
-        if page < lastPage {
+        if page <= lastPage {
+            print(page)
             return service
                 .request(path: .allCharacters, withMethod: .get, page: page)
                 .do(onNext: { _ in self.page += 1 })
-                .map { .success($0.results) }
+                .map { .success($0.results.map { Character($0) }) }
         } else {
             return .just(.noMorePages)
         }
@@ -50,7 +51,7 @@ class CharactersListViewModel {
     
     enum State {
         case noMorePages
-        case success([CharacterResponse])
+        case success([Character])
         case specificError
     }
 }
