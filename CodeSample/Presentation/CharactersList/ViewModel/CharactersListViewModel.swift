@@ -13,7 +13,7 @@ class CharactersListViewModel {
     private let router: WeakRouter<AppRoute>
     private let service: RickyAndMortyService
     
-    private var page = 1
+    private var page = 2
     private var lastPage = 99_999
     
     init(router: WeakRouter<AppRoute>, service: RickyAndMortyService = .init()) {
@@ -31,7 +31,6 @@ class CharactersListViewModel {
     
     func getNewPage() -> Observable<State> {
         if page <= lastPage {
-            print(page)
             return service
                 .request(path: .allCharacters, withMethod: .get, page: page)
                 .do(onNext: { _ in self.page += 1 })

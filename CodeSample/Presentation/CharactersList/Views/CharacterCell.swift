@@ -14,8 +14,8 @@ class CharacterCell: BaseTableViewCell {
         $0.layer.masksToBounds = false
         $0.layer.cornerRadius = 16
         $0.layer.shadowRadius = 6
-        $0.layer.shadowOffset = CGSize(width: -2, height: -2)
-        $0.layer.shadowOpacity = 0.2
+        $0.layer.shadowOffset = CGSize(width: -2, height: 2)
+        $0.layer.shadowOpacity = 0.4
         $0.layer.shadowColor = AppColors.Grays.darkerGray.cgColor
     }
     

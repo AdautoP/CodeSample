@@ -48,6 +48,5 @@ public class BaseTableFooterView: BaseView {
     public func noMorePages() {
         label.isHidden = false
         isHidden = false
-        activityIndicator.stopAnimating()
     }
 }

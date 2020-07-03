@@ -44,7 +44,7 @@ class CharactersListRootView: BaseView {
         guard let value = display.value else { return }
         switch value {
         case let .success(characters): self.characters += characters
-        case .noMorePages: tableView.footer.noMorePages()
+        case .noMorePages: tableView.noMorePages()
         default: break
         }
     }
@@ -69,7 +69,7 @@ extension CharactersListRootView: UITableViewDelegate, UITableViewDataSource {
         
         if contentHeight > height && distanceFromBottom < height {
             delegate?.scrollViewDidEndDragging()
-            tableView.footer.startAnimating()
+            tableView.loadMorePages()
         }
     }
 }

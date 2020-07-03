@@ -29,4 +29,16 @@ open class BaseTableView: UITableView {
     public required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    public func loadMorePages() {
+        footer.isHidden = false
+        footer.startAnimating()
+        layoutSubviews()
+    }
+    
+    public func noMorePages() {
+        footer.isHidden = false
+        footer.stopAnimating()
+        footer.noMorePages()
+    }
 }
