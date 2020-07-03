@@ -11,13 +11,22 @@ public class BaseNavigationController: UINavigationController {
     
     public init() {
         super.init(nibName: nil, bundle: nil)
-        navigationBar.shadowImage = UIImage()
+        
+        navigationBar.tintColor = AppColors.Grays.black
         navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationBar.shadowImage = UIImage()
+        navigationBar.isTranslucent = false
+        view.backgroundColor = AppColors.Grays.lightGray
+
     }
     
     @available(*, unavailable)
-    required init?(coder aDecoder: NSCoder) {
+    override public init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+    }
+
+    @available(*, unavailable)
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
 }

@@ -1,15 +1,16 @@
 //
-//  BaseView.swift
+//  BaseTableViewCell.swift
 //  Components
 //
-//  Created by Adauto Pinheiro on 30/06/20.
+//  Created by Adauto Pinheiro on 02/07/20.
 //
 
 import UIKit
 
-open class BaseView: UIView {
-    public init() {
-        super.init(frame: .zero)
+open class BaseTableViewCell: UITableViewCell {
+    
+    override public init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         backgroundColor = AppColors.Grays.lightGray
         buildSubviews()
         buildConstraints()
@@ -24,5 +25,4 @@ open class BaseView: UIView {
     open func buildSubviews() {}
     open func buildConstraints() {}
     open func buildAditionalConfiguration() {}
-    
 }

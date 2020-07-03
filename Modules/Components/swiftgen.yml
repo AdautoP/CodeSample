@@ -9,4 +9,5 @@ xcassets:
     
     - templateName: swift5
       output: Components/Resources/Generated/Assets.swift
-      publicAccess: true
+      params:
+        publicAccess: true

@@ -29,7 +29,9 @@ open class BaseController: UIViewController {
         loadingView.edgesToSuperview()
         
         navigationController?.navigationBar.prefersLargeTitles = true
-        navigationController?.navigationBar.tintColor = AppColors.Grays.black
+        navigationController?.navigationBar.titleTextAttributes = [
+        NSAttributedString.Key.font: UIFont.appFont(size: 24, weight: .bold)
+        ]
         navigationController?.navigationBar.largeTitleTextAttributes = [
             NSAttributedString.Key.font: UIFont.appFont(size: 32, weight: .bold)
         ]

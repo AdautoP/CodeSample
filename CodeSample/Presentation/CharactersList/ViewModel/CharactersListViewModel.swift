@@ -14,7 +14,7 @@ class CharactersListViewModel {
     private let service: RickyAndMortyService
     
     private var page = 0
-    private var lastPage = 99999
+    private var lastPage = 99_999
     
     init(router: WeakRouter<AppRoute>, service: RickyAndMortyService = .init()) {
         self.router = router

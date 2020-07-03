@@ -13,7 +13,7 @@ public enum Display<Value> {
     case success(Value)
     case failure(Error, (() -> Void)?)
     
-    var value: Value? {
+    public var value: Value? {
         switch self {
         case let .success(value): return value
         case .idle, .loading, .failure: return nil

@@ -40,6 +40,7 @@ extension CharactersListController {
     var state: Binder<Display<CharactersListViewModel.State>> {
         Binder(self) { controller, display in
             controller.layout(display)
+            controller.rootView.layout(display)
         }
     }
 }
