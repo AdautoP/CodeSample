@@ -29,7 +29,7 @@ class CharactersListViewModel {
             .catchError(handleError)
     }
     
-    func refreshCaracters() -> Observable<State> {
+    func getNewPage() -> Observable<State> {
         if page < lastPage {
             return service
                 .request(path: .allCharacters, withMethod: .get, page: page)

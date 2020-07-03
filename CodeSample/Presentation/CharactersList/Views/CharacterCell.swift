@@ -12,7 +12,7 @@ class CharacterCell: BaseTableViewCell {
     private let cardView = BaseView() >> {
         $0.clipsToBounds = true
         $0.layer.masksToBounds = false
-        $0.layer.cornerRadius = 4
+        $0.layer.cornerRadius = 16
         $0.layer.shadowRadius = 6
         $0.layer.shadowOffset = CGSize(width: -2, height: -2)
         $0.layer.shadowOpacity = 0.2

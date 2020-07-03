@@ -13,7 +13,7 @@ class CharactersListController: BaseController {
     private let disposeBag = DisposeBag()
     
     private let viewModel: CharactersListViewModel
-    private let rootView = CharactersListRootView()
+    private lazy var rootView = CharactersListRootView() >> { $0.delegate = self }
     
     init(viewModel: CharactersListViewModel) {
         self.viewModel = viewModel
@@ -42,5 +42,15 @@ extension CharactersListController {
             controller.layout(display)
             controller.rootView.layout(display)
         }
+    }
+}
+
+extension CharactersListController: CharactersListRootViewDelegate {
+    func scrollViewDidScroll() {
+        viewModel
+            .getNewPage()
+            .displayableWithoutLoading(retryAction: nil)
+            .bind(to: state)
+            .disposed(by: disposeBag)
     }
 }

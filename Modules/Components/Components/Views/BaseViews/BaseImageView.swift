@@ -40,7 +40,6 @@ open class BaseImageView: UIImageView {
             return
         }
         
-        image = self.emptyImage
         guard let url = URL(string: urlString) else { return }
         let request = URLRequest(url: url)
         URLSession
@@ -66,6 +65,7 @@ open class BaseImageView: UIImageView {
                     self.activityIndicator.stopAnimating()
                     
                 default:
+                    self.image = self.emptyImage
                     self.activityIndicator.stopAnimating()
                 }
             })

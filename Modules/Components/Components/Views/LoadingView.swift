@@ -11,6 +11,7 @@ public class LoadingView: BaseView {
     let activityIndicatorView = UIActivityIndicatorView() >> {
         $0.hidesWhenStopped = true
         $0.style = .large
+        $0.color = AppColors.Interface.yellow
     }
     
     override init() {
