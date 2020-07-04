@@ -15,6 +15,7 @@ public class BaseTableFooterView: BaseView {
     
     private let label = UILabel() >> {
         $0.font = .appFont(size: 16, weight: .light)
+        $0.textAlignment = .center
         $0.textColor = AppColors.Grays.black
         $0.text = "No more items to show."
         $0.isHidden = true
@@ -31,22 +32,23 @@ public class BaseTableFooterView: BaseView {
         activityIndicator.centerInSuperview()
         activityIndicator.verticalToSuperview(insets: .vertical(8))
         
-        label.centerInSuperview()
-        label.verticalToSuperview(insets: .vertical(8))
+        label.edgesToSuperview()
+    }
+     
+    public func hideWarning() {
+        label.isHidden = true
+        removeFromSuperview()
     }
     
     public func startAnimating() {
-        isHidden = false
         activityIndicator.startAnimating()
     }
     
     public func stopAnimating() {
-        isHidden = true
         activityIndicator.stopAnimating()
     }
     
     public func noMorePages() {
         label.isHidden = false
-        isHidden = false
     }
 }

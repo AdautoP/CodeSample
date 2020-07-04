@@ -8,7 +8,7 @@
 import UIKit
 
 protocol CharactersListRootViewDelegate: AnyObject {
-    func scrollViewDidEndDragging()
+    func fetchMoreItems()
 }
 
 class CharactersListRootView: BaseView {
@@ -23,9 +23,7 @@ class CharactersListRootView: BaseView {
         $0.register(CharacterCell.self, forCellReuseIdentifier: CharacterCell.identifer)
         $0.backgroundColor = AppColors.Grays.lightGray
         $0.delegate = self
-        $0.dataSource = self
         $0.separatorStyle = .none
-        $0.contentInset = .vertical(8)
     }
     
     @objc func teste() {}
@@ -50,7 +48,11 @@ class CharactersListRootView: BaseView {
     }
 }
 
-extension CharactersListRootView: UITableViewDelegate, UITableViewDataSource {
+extension CharactersListRootView: BaseTableViewDelegateDataSource {
+    func fetchMoreItems() {
+        delegate?.fetchMoreItems()
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return characters.count
     }
@@ -59,17 +61,5 @@ extension CharactersListRootView: UITableViewDelegate, UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: CharacterCell.identifer) as? CharacterCell else { return UITableViewCell() }
         cell.bind(characters[indexPath.row])
         return cell
-    }
-    
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        let height = scrollView.frame.size.height
-        let yOffset = scrollView.contentOffset.y
-        let contentHeight = scrollView.contentSize.height
-        let distanceFromBottom = contentHeight - yOffset
-        
-        if contentHeight > height && distanceFromBottom < height, tableView.canLoadMorePages {
-            delegate?.scrollViewDidEndDragging()
-            tableView.loadMorePages()
-        }
     }
 }

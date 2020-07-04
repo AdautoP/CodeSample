@@ -7,41 +7,68 @@
 
 import UIKit
 
-open class BaseTableView: UITableView {
+open class BaseTableView: BaseView {
+    
+    public weak var delegate: BaseTableViewDelegateDataSource?
+    
+    private lazy var tableView = UITableView() >> {
+        $0.delegate = self
+        $0.dataSource = self
+        $0.backgroundColor = backgroundColor
+    }
     
     public let footer = BaseTableFooterView()
     
+    private let stackView = UIStackView() >> {
+        $0.spacing = 0
+        $0.distribution = .fill
+        $0.axis = .vertical
+        $0.backgroundColor = AppColors.Grays.lightGray
+    }
+    
+    public var separatorStyle: UITableViewCell.SeparatorStyle {
+        get { tableView.separatorStyle }
+        set { tableView.separatorStyle = newValue }
+    }
+    
+    public var contentInset: UIEdgeInsets {
+        get { tableView.contentInset }
+        set { tableView.contentInset = newValue }
+    }
+    
     public var canLoadMorePages = true
+    public var lastYOffset: CGFloat = 0
     
-    public init() {
-        super.init(frame: .zero, style: .grouped)
-        self.tableFooterView = footer
+    override open func buildSubviews() {
+        super.buildSubviews()
+        addSubview(stackView)
+        
+        stackView.addArrangedSubview(tableView)
     }
     
-    override open func reloadData() {
-        super.reloadData()
-        footer.stopAnimating()
+    override open func buildConstraints() {
+        super.buildConstraints()
+        stackView.edgesToSuperview(usingSafeArea: true)
+    }
+    
+    public func register(_ cellClass: AnyClass?, forCellReuseIdentifier: String) {
+        tableView.register(cellClass, forCellReuseIdentifier: forCellReuseIdentifier)
+    }
+    
+    public func reloadData() {
+        tableView.reloadData()
         canLoadMorePages = true
-    }
-    
-    override public init(frame: CGRect, style: UITableView.Style) {
-        super.init(frame: frame, style: style)
-    }
-    
-    @available(*, unavailable)
-    public required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        stackView.removeArrangedSubview(footer)
     }
     
     public func loadMorePages() {
-        footer.isHidden = false
+        stackView.addArrangedSubview(footer)
         footer.startAnimating()
-        layoutSubviews()
         canLoadMorePages = false
     }
     
     public func noMorePages() {
-        footer.isHidden = false
+        stackView.addArrangedSubview(footer)
         footer.stopAnimating()
         footer.noMorePages()
         canLoadMorePages = false

@@ -46,7 +46,7 @@ extension CharactersListController {
 }
 
 extension CharactersListController: CharactersListRootViewDelegate {
-    func scrollViewDidEndDragging() {
+    func fetchMoreItems() {
         viewModel
             .getNewPage()
             .displayableWithoutLoading(retryAction: nil)
