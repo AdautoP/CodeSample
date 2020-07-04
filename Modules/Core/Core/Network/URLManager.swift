@@ -34,12 +34,23 @@ public enum URLManager {
             .response(request: request)
             .map { response, data in
                 switch response.statusCode {
-                case 200..<300 :
-                    return try decoder.decode(T.self, from: data)
+                case 200..<300:
+                    do {
+                        return try decoder.decode(T.self, from: data)
+                    } catch {
+                        throw NetworkErrors.decodeError
+                    }
                     
-                default:
+                case 400..<500:
                     let body = try JSONSerialization.jsonObject(with: data, options: .init()) as? [String: Any]
                     throw NetworkErrors.badRequest(code: response.statusCode, body: body ?? [:])
+                    
+                case 500:
+                    throw NetworkErrors.internalError
+
+                default:
+                    let body = try JSONSerialization.jsonObject(with: data, options: .init()) as? [String: Any]
+                    throw NetworkErrors.unknownError(code: response.statusCode, body: body ?? [:])
                 }
             }
     }

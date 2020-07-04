@@ -9,5 +9,8 @@ import Foundation
 
 public enum NetworkErrors: Error {
     case unavailableUrl
+    case decodeError
+    case internalError
     case badRequest(code: Int, body: [String: Any])
+    case unknownError(code: Int, body: [String: Any])
 }
