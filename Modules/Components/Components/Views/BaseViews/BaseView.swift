@@ -10,7 +10,14 @@ import UIKit
 open class BaseView: UIView {
     public init() {
         super.init(frame: .zero)
-        translatesAutoresizingMaskIntoConstraints = false
+        backgroundColor = AppColors.Grays.lightGray
+        buildSubviews()
+        buildConstraints()
+        buildAditionalConfiguration()
+    }
+    
+    override public init(frame: CGRect) {
+        super.init(frame: frame)
         buildSubviews()
         buildConstraints()
         buildAditionalConfiguration()

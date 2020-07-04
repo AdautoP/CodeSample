@@ -1,10 +1,13 @@
 strings:
   inputs: Components/Resources/Localizable.strings
   outputs:
-    - templateName: structured-swift4
+    - templateName: structured-swift5
       output: Components/Resources/Generated/Strings.generated.swift
 xcassets:
   inputs: Components/Resources/Assets.xcassets
   outputs:
-    - templateName: swift4
+    
+    - templateName: swift5
       output: Components/Resources/Generated/Assets.swift
+      params:
+        publicAccess: true

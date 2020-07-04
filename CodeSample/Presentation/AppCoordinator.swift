@@ -20,7 +20,10 @@ class AppCoordinator: NavigationCoordinator<AppRoute> {
     
     override func prepareTransition(for route: AppRoute) -> NavigationTransition {
         switch route {
-        case .start: return .push(BaseController())
+        case .start:
+            let viewModel = CharactersListViewModel(router: weakRouter)
+            let controller = CharactersListController(viewModel: viewModel)
+            return .push(controller)
         }
     }
 }

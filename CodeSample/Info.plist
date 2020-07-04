@@ -2,6 +2,13 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>UIAppFonts</key>
+	<array>
+		<string>PollyRounded-Bold.otf</string>
+		<string>PollyRounded-Light.otf</string>
+		<string>PollyRounded-Regular.otf</string>
+		<string>PollyRounded-Thin.otf</string>
+	</array>
 	<key>LSApplicationCategoryType</key>
 	<string></string>
 	<key>CFBundleDevelopmentRegion</key>

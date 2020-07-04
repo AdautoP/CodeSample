@@ -10,18 +10,24 @@ import Foundation
 import RxSwift
 
 class RickyAndMortyService {
-    private init() {}
     
-    static let shared = RickyAndMortyService()
+    private let baseUrlPath = "https://rickandmortyapi.com/api"
     
-    private let baseUrl = "https://rickandmortyapi.com/api/"
+    private var urlComponents = URLComponents() >> {
+        $0.scheme = "https"
+        $0.host = "rickandmortyapi.com"
+    }
     
-    func request<T: Decodable>(path: RickAndMortyEndpoints, withMethod method: RequestMethod, body: [String: Any]? = nil) -> Observable<T> {
-        URLManager.request(path: baseUrl + path.rawValue, withMethod: method, body: body)
+    func request(path: RickAndMortyEndpoints, withMethod method: RequestMethod, page: Int? = nil) -> Observable<CharactersListResponse> {
+        urlComponents.path = path.rawValue
+        if let page = page {
+            urlComponents.queryItems = [URLQueryItem(name: "page", value: String(page))]
+        }
         
+        return URLManager.request(path: urlComponents.url?.absoluteString ?? "", withMethod: method, body: nil)
     }
 }
 
 enum RickAndMortyEndpoints: String {
-    case allCharacters = "/character"
+    case allCharacters = "/api/character"
 }

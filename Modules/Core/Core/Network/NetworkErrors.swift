@@ -9,4 +9,5 @@ import Foundation
 
 public enum NetworkErrors: Error {
     case unavailableUrl
+    case badRequest(code: Int, body: [String: Any])
 }

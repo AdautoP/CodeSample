@@ -13,37 +13,46 @@ public enum ScreenRowType {
 }
 
 open class ScreenView: BaseView {
-    private let contentStackView = UIStackView() >> {
+    
+    override public init() {
+        super.init()
+        buildScreen()
+    }
+    
+    private let contentView = BaseView()
+    private let footerView = BaseView()
+    
+    private let mainStackView = UIStackView() >> {
         $0.distribution = .fill
         $0.axis = .vertical
-        $0.spacing = .zero
+        $0.spacing = 24
     }
     
     private let bottomStackView = UIStackView() >> {
-        $0.distribution = .fillEqually
+        $0.distribution = .fillProportionally
+        $0.alignment = .center
         $0.axis = .horizontal
         $0.spacing = 16
     }
     
     override open func buildSubviews() {
         super.buildSubviews()
-        addSubview(contentStackView)
-        addSubview(bottomStackView)
+        addSubview(mainStackView)
+        
+        footerView.addSubview(bottomStackView)
+        
+        mainStackView.addArrangedSubview(contentView)
+        mainStackView.addArrangedSubview(footerView)
     }
     
     override open func buildConstraints() {
         super.buildConstraints()
+        mainStackView.edgesToSuperview(usingSafeArea: true)
         
-        bottomStackView.edgesToSuperview(excluding: .top)
-        
-        contentStackView.edgesToSuperview(excluding: .bottom)
-        contentStackView.bottomToTop(of: bottomStackView)
+        bottomStackView.edgesToSuperview(insets: .uniform(24))
     }
     
     open func render(_ rows: ScreenRowType? ...) {
-        contentStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
-        bottomStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
-        
         rows.compactMap({ $0 }).forEach {
             switch $0 {
             case let .contentView(contentView): addContentView(contentView)
@@ -53,10 +62,13 @@ open class ScreenView: BaseView {
     }
     
     private func addContentView(_ view: UIView) {
-        contentStackView.addArrangedSubview(view)
+        contentView.subviews.forEach { $0.removeFromSuperview() }
+        contentView.addSubview(view)
+        view.edgesToSuperview()
     }
     
     private func addButton(_ button: UIButton) {
+        bottomStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
         bottomStackView.addArrangedSubview(button)
     }
     
