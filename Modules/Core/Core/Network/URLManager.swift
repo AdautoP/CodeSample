@@ -27,19 +27,21 @@ public enum URLManager {
                 return .error(error)
             }
         }
-        
+
         return URLSession
             .shared
             .rx
-            .data(request: request)
-            .map {
-                do {
-                    return try decoder.decode(T.self, from: $0)
-                } catch {
-                    let body = try? JSONSerialization.jsonObject(with: $0, options: .init()) as? [String: Any]
-                    throw NetworkErrors.badRequest(body: body ?? [:])
+            .response(request: request)
+            .map { response, data in
+                switch response.statusCode {
+                case 200..<300 :
+                    return try decoder.decode(T.self, from: data)
+                    
+                default:
+                    let body = try JSONSerialization.jsonObject(with: data, options: .init()) as? [String: Any]
+                    throw NetworkErrors.badRequest(code: response.statusCode, body: body ?? [:])
                 }
-        }
+            }
     }
 }
 

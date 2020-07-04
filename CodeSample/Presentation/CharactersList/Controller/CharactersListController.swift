@@ -27,10 +27,13 @@ class CharactersListController: BaseController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        getCharacters()
+    }
+    
+    private func getCharacters() {
         viewModel
             .getCharacters()
-            .displayable(retryAction: nil)
+            .displayable(retryAction: getCharacters)
             .bind(to: state)
             .disposed(by: disposeBag)
     }
@@ -49,7 +52,7 @@ extension CharactersListController: CharactersListRootViewDelegate {
     func fetchMoreItems() {
         viewModel
             .getNewPage()
-            .displayableWithoutLoading(retryAction: nil)
+            .displayableWithoutLoading(retryAction: fetchMoreItems)
             .bind(to: state)
             .disposed(by: disposeBag)
     }

@@ -14,9 +14,7 @@ protocol ErrorViewDelegate: AnyObject {
 public class ErrorView: ScreenView {
     weak var delegate: ErrorViewDelegate?
     
-    private let imageView = UIImageView() >> {
-        $0.contentMode = .scaleAspectFit
-    }
+    private let feedbackView = ImageFeedbackView()
     
     private lazy var exitButton = UIButton() >> {
         $0.setTitle("Sair", for: .normal)
@@ -24,8 +22,13 @@ public class ErrorView: ScreenView {
         
     }
     
-    private lazy var retryButton = UIButton() >> {
+    private lazy var retryButton = UIButton(type: .system) >> {
+        $0.titleLabel?.font = .appFont(size: 16, weight: .regular)
         $0.setTitle("Tentar novamente", for: .normal)
+        $0.backgroundColor = AppColors.Interface.yellow
+        $0.setTitleColor(AppColors.Grays.black, for: .normal)
+        $0.layer.cornerRadius = 16
+        $0.contentEdgeInsets = .horizontal(8)
         $0.addTarget(self, action: #selector(retry), for: .touchUpInside)
     }
     
@@ -34,6 +37,11 @@ public class ErrorView: ScreenView {
     override init() {
         super.init()
         alpha = 0
+    }
+    
+    override public func buildConstraints() {
+        super.buildConstraints()
+        retryButton.height(48)
     }
     
     public func layout<T>(_ display: Display<T>) {
@@ -46,10 +54,10 @@ public class ErrorView: ScreenView {
     private func layoutError(_ retryAction: (() -> Void)?) {
         self.retryAction = retryAction
         render(
-            .contentView(imageView),
-            .button(exitButton),
+            .contentView(feedbackView),
             retryAction != nil ? .button(retryButton) : nil
         )
+        feedbackView.layout(retryAction != nil)
         animateIn()
     }
     
