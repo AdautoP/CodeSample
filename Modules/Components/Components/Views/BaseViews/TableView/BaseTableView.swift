@@ -9,7 +9,8 @@ import UIKit
 
 open class BaseTableView: BaseView {
     
-    public weak var delegate: BaseTableViewDelegateDataSource?
+    public weak var delegate: BaseTableViewDelegate?
+    public weak var dataSource: BaseTableViewDataSource?
     
     private lazy var tableView = UITableView() >> {
         $0.delegate = self

@@ -30,6 +30,9 @@ public enum Asset {
     public static let red = ColorAsset(name: "Colors/Red")
     public static let yellow = ColorAsset(name: "Colors/Yellow")
   }
+  public enum Errors {
+    public static let `default` = ImageAsset(name: "Errors/Default")
+  }
   public static let imageNotFound = ImageAsset(name: "ImageNotFound")
 }
 // swiftlint:enable identifier_name line_length nesting type_body_length type_name

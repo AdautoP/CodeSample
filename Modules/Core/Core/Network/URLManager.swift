@@ -32,7 +32,14 @@ public enum URLManager {
             .shared
             .rx
             .data(request: request)
-            .map { return try decoder.decode(T.self, from: $0) }
+            .map {
+                do {
+                    return try decoder.decode(T.self, from: $0)
+                } catch {
+                    let body = try? JSONSerialization.jsonObject(with: $0, options: .init()) as? [String: Any]
+                    throw NetworkErrors.badRequest(body: body ?? [:])
+                }
+        }
     }
 }
 

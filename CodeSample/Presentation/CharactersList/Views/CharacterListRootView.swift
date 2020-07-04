@@ -23,6 +23,7 @@ class CharactersListRootView: BaseView {
         $0.register(CharacterCell.self, forCellReuseIdentifier: CharacterCell.identifer)
         $0.backgroundColor = AppColors.Grays.lightGray
         $0.delegate = self
+        $0.dataSource = self
         $0.separatorStyle = .none
     }
     
@@ -48,7 +49,7 @@ class CharactersListRootView: BaseView {
     }
 }
 
-extension CharactersListRootView: BaseTableViewDelegateDataSource {
+extension CharactersListRootView: BaseTableViewDelegate, BaseTableViewDataSource {
     func fetchMoreItems() {
         delegate?.fetchMoreItems()
     }

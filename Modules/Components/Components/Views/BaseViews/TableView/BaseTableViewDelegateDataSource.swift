@@ -7,25 +7,21 @@
 
 import UIKit
 
-public protocol BaseTableViewDelegateDataSource: AnyObject {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
+public protocol BaseTableViewDelegate: AnyObject {
     func fetchMoreItems()
 }
 
-extension BaseTableView: UITableViewDataSource, UITableViewDelegate {
-    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        delegate?.tableView(tableView, numberOfRowsInSection: section) ?? 0
-    }
-    
-    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        delegate?.tableView(tableView, cellForRowAt: indexPath) ?? UITableViewCell()
-    }
-    
+public protocol BaseTableViewDataSource: AnyObject {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
+}
+
+extension BaseTableView: UITableViewDelegate {
+
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let offsetY = scrollView.contentOffset.y
         let contentHeight = scrollView.contentSize.height
-        
+
         if (lastYOffset > offsetY) && (lastYOffset < contentHeight - scrollView.frame.size.height) {
             print("lastY: \(lastYOffset) / currentY: \(offsetY)" )
             footer.hideWarning()
@@ -37,5 +33,15 @@ extension BaseTableView: UITableViewDataSource, UITableViewDelegate {
             }
         }
         lastYOffset = offsetY
+    }
+}
+
+extension BaseTableView: UITableViewDataSource {
+    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        dataSource?.tableView(tableView, numberOfRowsInSection: section) ?? 0
+    }
+
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        dataSource?.tableView(tableView, cellForRowAt: indexPath) ?? UITableViewCell()
     }
 }

@@ -13,7 +13,7 @@ public class BaseNavigationController: UINavigationController {
         super.init(nibName: nil, bundle: nil)
         
         navigationBar.tintColor = AppColors.Grays.black
-        navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationBar.setBackgroundImage(nil, for: .any, barMetrics: .default)
         navigationBar.shadowImage = UIImage()
         navigationBar.isTranslucent = false
         view.backgroundColor = AppColors.Grays.lightGray
