@@ -26,9 +26,16 @@ extension BaseTableView: UITableViewDataSource, UITableViewDelegate {
         let offsetY = scrollView.contentOffset.y
         let contentHeight = scrollView.contentSize.height
         
-        if offsetY > (contentHeight - scrollView.frame.size.height) && canLoadMorePages {
-            canLoadMorePages = false
-            delegate?.fetchMoreItems()
+        if (lastYOffset > offsetY) && (lastYOffset < contentHeight - scrollView.frame.size.height) {
+            print("lastY: \(lastYOffset) / currentY: \(offsetY)" )
+            footer.hideWarning()
+        } else {
+            if offsetY > (contentHeight - scrollView.frame.size.height) && canLoadMorePages {
+                canLoadMorePages = false
+                loadMorePages()
+                delegate?.fetchMoreItems()
+            }
         }
+        lastYOffset = offsetY
     }
 }

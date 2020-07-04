@@ -41,10 +41,12 @@ public class BaseTableFooterView: BaseView {
     }
     
     public func startAnimating() {
+        activityIndicator.isHidden = false
         activityIndicator.startAnimating()
     }
     
     public func stopAnimating() {
+        activityIndicator.isHidden = true
         activityIndicator.stopAnimating()
     }
     

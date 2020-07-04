@@ -71,6 +71,7 @@ open class BaseTableView: BaseView {
         stackView.addArrangedSubview(footer)
         footer.stopAnimating()
         footer.noMorePages()
-        canLoadMorePages = false
+        lastYOffset = 0
+        canLoadMorePages = true
     }
 }
