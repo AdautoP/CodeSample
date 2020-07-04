@@ -11,6 +11,7 @@ import UIKit
 
 open class BaseImageView: UIImageView {
     private let disposeBag = DisposeBag()
+    private var id = 0
     
     private let viewModel = ImageViewModel()
     
@@ -38,8 +39,9 @@ open class BaseImageView: UIImageView {
     }
     
     open func image(from urlString: String) {
+        id += 1
         viewModel
-            .getImageFromUrl(urlString)
+            .getImageFromUrl(urlString, id)
             .displayable(retryAction: nil)
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: {
@@ -48,9 +50,12 @@ open class BaseImageView: UIImageView {
                     self.image = nil
                     self.activityIndicator.startAnimating()
                     
-                case let .success(image):
-                    self.activityIndicator.stopAnimating()
-                    self.image = image
+                case let .success(identifiedImage):
+                    if identifiedImage.1 == self.id {
+                        self.activityIndicator.stopAnimating()
+                        self.image = identifiedImage.0
+                        self.id = 0
+                    }
                     
                 default:
                     self.activityIndicator.stopAnimating()
