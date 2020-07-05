@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CharacterDetailsRootView: BaseView {
+class CharacterDetailsRootView: ScreenView {
     
     private let contentView = BaseView()
     
@@ -21,10 +21,11 @@ class CharacterDetailsRootView: BaseView {
     
     private var imageHeight = NSLayoutConstraint()
     
+    override func buildScreen() {
+        render(.contentView(contentView))
+    }
     override func buildSubviews() {
         super.buildSubviews()
-        
-        addSubview(contentView)
         
         contentView.addSubview(imageHeaderView)
         contentView.addSubview(tableView)
@@ -32,8 +33,6 @@ class CharacterDetailsRootView: BaseView {
     
     override func buildConstraints() {
         super.buildConstraints()
-        
-        contentView.edgesToSuperview(usingSafeArea: true)
         
         imageHeaderView.edgesToSuperview(excluding: .bottom)
         imageHeight = imageHeaderView.heightToSuperview(multiplier: 0.3)

@@ -16,6 +16,7 @@ open class BaseTableView: BaseView {
         $0.delegate = self
         $0.dataSource = self
         $0.backgroundColor = backgroundColor
+        $0.separatorStyle = .none
     }
     
     public let footer = BaseTableFooterView()

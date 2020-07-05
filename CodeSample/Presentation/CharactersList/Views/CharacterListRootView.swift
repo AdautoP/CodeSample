@@ -12,7 +12,7 @@ protocol CharactersListRootViewDelegate: AnyObject {
     func didSelect(character: Character)
 }
 
-class CharactersListRootView: BaseView {
+class CharactersListRootView: ScreenView {
     
     weak var delegate: CharactersListRootViewDelegate?
     
@@ -28,16 +28,9 @@ class CharactersListRootView: BaseView {
         $0.separatorStyle = .none
     }
     
-    @objc func teste() {}
-    
-    override func buildSubviews() {
-        super.buildSubviews()
-        addSubview(tableView)
-    }
-    
-    override func buildConstraints() {
-        super.buildConstraints()
-        tableView.edgesToSuperview()
+    override func buildScreen() {
+        super.buildScreen()
+        render(.contentView(tableView))
     }
     
     func layout(_ display: Display<CharactersListViewModel.State>) {

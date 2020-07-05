@@ -8,7 +8,7 @@
 import UIKit
 
 class ImageHeaderView: BaseView {
-    private let imageView = BaseImageView() >> {
+    let imageView = BaseImageView() >> {
         $0.contentMode = .scaleAspectFit
         $0.backgroundColor = .clear
         $0.clipsToBounds = true
