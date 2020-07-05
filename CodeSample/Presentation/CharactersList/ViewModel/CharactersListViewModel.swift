@@ -30,7 +30,7 @@ class CharactersListViewModel {
     }
     
     func getNewPage() -> Observable<State> {
-        if page <= 3 {
+        if page <= lastPage {
             return service
                 .request(path: .allCharacters, withMethod: .get, page: page)
                 .do(onNext: { _ in self.page += 1 })
@@ -38,7 +38,6 @@ class CharactersListViewModel {
         } else {
             return .just(.noMorePages)
         }
-        
     }
     
     /**

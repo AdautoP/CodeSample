@@ -11,7 +11,8 @@ import UIKit
 
 open class BaseImageView: UIImageView {
     private let disposeBag = DisposeBag()
-    private var id = 0
+    private let subject = PublishSubject<Display<UIImage>>()
+    private var disposable: Disposable?
     
     private let viewModel = ImageViewModel()
     
@@ -31,6 +32,36 @@ open class BaseImageView: UIImageView {
         
         addSubview(activityIndicator)
         activityIndicator.centerInSuperview()
+        
+        bind()
+    }
+    
+    private func bind() {
+        subject
+            .observeOn(MainScheduler.instance)
+            .do(onNext: {
+                
+                switch $0 {
+                case .loading:
+                    self.activityIndicator.startAnimating()
+                    
+                case .success:
+                    self.disposable?.dispose()
+                    self.activityIndicator.stopAnimating()
+                    
+                default:
+                    self.activityIndicator.stopAnimating()
+                }
+            })
+            .map {
+                switch $0 {
+                case let .success(image): return image
+                case .loading: return UIImage()
+                default: return self.emptyImage
+                }
+            }
+            .bind(to: rx.image)
+            .disposed(by: disposeBag)
     }
     
     @available(*, unavailable)
@@ -39,29 +70,11 @@ open class BaseImageView: UIImageView {
     }
     
     open func image(from urlString: String) {
-        id += 1
-        viewModel
-            .getImageFromUrl(urlString, id)
-            .displayable(retryAction: nil)
+        disposable?.dispose()
+        disposable = viewModel
+            .getImageFromUrl(urlString)
             .observeOn(MainScheduler.instance)
-            .subscribe(onNext: {
-                switch $0 {
-                case .loading:
-                    self.image = nil
-                    self.activityIndicator.startAnimating()
-                    
-                case let .success(identifiedImage):
-                    if identifiedImage.1 == self.id {
-                        self.activityIndicator.stopAnimating()
-                        self.image = identifiedImage.0
-                        self.id = 0
-                    }
-                    
-                default:
-                    self.activityIndicator.stopAnimating()
-                    self.image = self.emptyImage
-                }
-            })
-            .disposed(by: disposeBag)
+            .displayable(retryAction: nil)
+            .subscribe(onNext: { self.subject.onNext($0) })
     }
 }

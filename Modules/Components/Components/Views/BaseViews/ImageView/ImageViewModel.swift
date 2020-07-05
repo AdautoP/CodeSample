@@ -10,8 +10,6 @@ import UIKit
 
 class ImageViewModel {
     
-    typealias IdentifiedImage = (UIImage, Int)
-    
     var emptyImage: UIImage
     
     static let cache = NSCache<NSString, UIImage>()
@@ -20,20 +18,20 @@ class ImageViewModel {
         self.emptyImage = emptyImage
     }
     
-    func getImageFromUrl(_ urlString: String, _ id: Int) -> Observable<IdentifiedImage> {
+    func getImageFromUrl(_ urlString: String) -> Observable<UIImage> {
         if let cachedImage = Self.cache.object(forKey: urlString as NSString) {
-            return .just((cachedImage, id))
+            return .just(cachedImage)
         }
         
         guard let url = URL(string: urlString) else {
-            return Observable.just((emptyImage, id))
+            return Observable.just(emptyImage)
         }
         let request = URLRequest(url: url)
         return URLSession
             .shared
             .rx
             .data(request: request)
-            .map { (UIImage(data: $0) ?? self.emptyImage, id) }
-            .do(onNext: { Self.cache.setObject($0.0, forKey: urlString as NSString) })
+            .map { UIImage(data: $0) ?? self.emptyImage }
+            .do(onNext: { Self.cache.setObject($0, forKey: urlString as NSString) })
     }
 }
