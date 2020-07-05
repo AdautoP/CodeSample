@@ -9,6 +9,7 @@ import UIKit
 
 protocol CharactersListRootViewDelegate: AnyObject {
     func fetchMoreItems()
+    func didSelect(character: Character)
 }
 
 class CharactersListRootView: BaseView {
@@ -50,6 +51,11 @@ class CharactersListRootView: BaseView {
 }
 
 extension CharactersListRootView: BaseTableViewDelegate, BaseTableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        delegate?.didSelect(character: characters[indexPath.row])
+    }
+    
     func fetchMoreItems() {
         delegate?.fetchMoreItems()
     }
@@ -60,7 +66,7 @@ extension CharactersListRootView: BaseTableViewDelegate, BaseTableViewDataSource
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: CharacterCell.identifer) as? CharacterCell else { return UITableViewCell() }
-        cell.bind(characters[indexPath.row])
+        cell.layout(characters[indexPath.row])
         return cell
     }
 }

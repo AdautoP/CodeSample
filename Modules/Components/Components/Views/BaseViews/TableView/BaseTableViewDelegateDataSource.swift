@@ -7,8 +7,12 @@
 
 import UIKit
 
-public protocol BaseTableViewDelegate: AnyObject {
-    func fetchMoreItems()
+@objc public protocol BaseTableViewDelegate: AnyObject {
+    @objc optional func fetchMoreItems()
+    @objc optional func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
+    @objc optional func scrollViewDidScroll(_ scrollView: UIScrollView)
+    @objc optional func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool)
+    
 }
 
 public protocol BaseTableViewDataSource: AnyObject {
@@ -17,22 +21,35 @@ public protocol BaseTableViewDataSource: AnyObject {
 }
 
 extension BaseTableView: UITableViewDelegate {
+    
+    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        delegate?.tableView?(tableView, didSelectRowAt: indexPath)
+    }
 
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let offsetY = scrollView.contentOffset.y
-        let contentHeight = scrollView.contentSize.height
-
-        if (lastYOffset > offsetY) && (lastYOffset < contentHeight - scrollView.frame.size.height) {
-            print("lastY: \(lastYOffset) / currentY: \(offsetY)" )
-            footer.hideWarning()
-        } else {
-            if offsetY > (contentHeight - scrollView.frame.size.height) && canLoadMorePages {
-                canLoadMorePages = false
-                loadMorePages()
-                delegate?.fetchMoreItems()
+        guard let scrollDidScroll = delegate?.scrollViewDidScroll?(scrollView) else {
+            let offsetY = scrollView.contentOffset.y
+            let contentHeight = scrollView.contentSize.height
+            
+            if (lastYOffset > offsetY) && (lastYOffset < contentHeight - scrollView.frame.size.height) {
+                print("lastY: \(lastYOffset) / currentY: \(offsetY)" )
+                footer.hideWarning()
+            } else {
+                if offsetY > (contentHeight - scrollView.frame.size.height) && canLoadMorePages {
+                    canLoadMorePages = false
+                    loadMorePages()
+                    delegate?.fetchMoreItems?()
+                }
             }
+            lastYOffset = offsetY
+            return
         }
-        lastYOffset = offsetY
+        scrollDidScroll
+    }
+    
+    public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        
+        delegate?.scrollViewDidEndDragging?(scrollView, willDecelerate: decelerate)
     }
 }
 

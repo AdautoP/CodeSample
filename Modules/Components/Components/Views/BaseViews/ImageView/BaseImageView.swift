@@ -29,6 +29,7 @@ open class BaseImageView: UIImageView {
         self.image = image
         
         addSubview(activityIndicator)
+        clipsToBounds = true
         activityIndicator.centerInSuperview()
         
         bind()

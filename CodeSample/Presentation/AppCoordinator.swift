@@ -11,6 +11,7 @@ import XCoordinator
 
 enum AppRoute: Route {
     case start
+    case detail(Character)
 }
 
 class AppCoordinator: NavigationCoordinator<AppRoute> {
@@ -23,6 +24,11 @@ class AppCoordinator: NavigationCoordinator<AppRoute> {
         case .start:
             let viewModel = CharactersListViewModel(router: weakRouter)
             let controller = CharactersListController(viewModel: viewModel)
+            return .push(controller)
+            
+        case let .detail(character):
+            let viewModel = CharacterDetailsViewModel(router: weakRouter, character: character)
+            let controller = CharacterDetailsController(viewModel: viewModel)
             return .push(controller)
         }
     }

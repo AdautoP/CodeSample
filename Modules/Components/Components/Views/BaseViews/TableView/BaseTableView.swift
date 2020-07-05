@@ -37,6 +37,8 @@ open class BaseTableView: BaseView {
         set { tableView.contentInset = newValue }
     }
     
+    public var hasVisibleCells: Bool { !tableView.visibleCells.isEmpty }
+    
     public var canLoadMorePages = true
     public var lastYOffset: CGFloat = 0
     

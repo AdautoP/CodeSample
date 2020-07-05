@@ -41,7 +41,7 @@ class StatusView: BaseView {
         label.rightToSuperview(offset: -8)
     }
     
-    func bind(_ status: Character.Status, species: String) {
+    func layout(_ status: Character.Status, species: String) {
         statusIndicatorView.backgroundColor = status.color
         label.text = status.text + " - " + species
     }

@@ -28,6 +28,7 @@ open class BaseController: UIViewController {
         errorView.edgesToSuperview()
         loadingView.edgesToSuperview()
         
+        navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationBar.titleTextAttributes = [
         NSAttributedString.Key.font: UIFont.appFont(size: 24, weight: .bold)
@@ -35,6 +36,11 @@ open class BaseController: UIViewController {
         navigationController?.navigationBar.largeTitleTextAttributes = [
             NSAttributedString.Key.font: UIFont.appFont(size: 32, weight: .bold)
         ]
+    }
+    
+    override open func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.navigationBar.isTranslucent = true
     }
     
     open func layout<T>(_ display: Display<T>) {

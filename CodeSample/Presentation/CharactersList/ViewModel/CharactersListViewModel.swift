@@ -35,6 +35,7 @@ class CharactersListViewModel {
                 .request(path: .allCharacters, withMethod: .get, page: page)
                 .do(onNext: { _ in self.page += 1 })
                 .map { .success($0.results.map { Character($0) }) }
+                .catchError(handleError)
         } else {
             return .just(.noMorePages)
         }
@@ -67,6 +68,10 @@ class CharactersListViewModel {
             return .error(error)
         }
         return .error(error)
+    }
+    
+    func selectCharacter(_ character: Character) {
+        router.trigger(.detail(character))
     }
     
     enum State {

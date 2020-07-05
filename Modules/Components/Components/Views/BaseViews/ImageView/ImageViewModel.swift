@@ -6,7 +6,6 @@
 //
 
 import RxSwift
-import RxCocoa
 import UIKit
 
 class ImageViewModel {
