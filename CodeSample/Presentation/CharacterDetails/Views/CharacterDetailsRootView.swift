@@ -10,30 +10,16 @@ import UIKit
 
 class CharacterDetailsRootView: ScreenView {
     
-    private lazy var stackView = AloeStackView() >> {
-        $0.rowInset = .zero
-        $0.automaticallyHidesLastSeparator = true
-        $0.backgroundColor = AppColors.Grays.lightGray
-        $0.delegate = self
-    }
-    
-    private let imageHeaderView = ImageHeaderView()
-    
-    private var imageHeight = NSLayoutConstraint()
+    private lazy var detailView = DetailView()
     
     override func buildScreen() {
         super.buildScreen()
-        render(.contentView(stackView))
+        render(.contentView(detailView))
+    }
+    
+    func layout(_ display: Display<CharacterDetailsViewModel.ScreenData>) {
+        guard let data = display.value else { return }
         
-        stackView.addRow(imageHeaderView)
-        imageHeight = imageHeaderView.height(to: stackView, multiplier: 0.4)
+        detailView.render(data.rows)
     }
-    
-    func layout(_ character: Character) {
-        imageHeaderView.layout(character)
-    }
-}
-
-extension CharacterDetailsRootView: UIScrollViewDelegate {
-    
 }

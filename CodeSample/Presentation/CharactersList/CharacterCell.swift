@@ -74,7 +74,7 @@ class CharacterCell: BaseTableViewCell {
     func layout(_ response: Character) {
         baseImageView.image(from: response.image)
         nameLabel.text = response.name
-        statusView.layout(response.status, species: response.species)
-        lastLocationInfoView.bind(value: response.lastLocation)
+        statusView.layout(response.status)
+        lastLocationInfoView.bind(value: response.lastLocation.name)
     }
 }

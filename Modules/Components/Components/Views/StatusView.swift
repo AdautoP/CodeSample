@@ -7,7 +7,12 @@
 
 import UIKit
 
-class StatusView: BaseView {
+public protocol StatusRepresentable {
+    var color: UIColor { get }
+    var text: String { get }
+}
+
+public class StatusView: BaseView {
     
     private let statusIndicatorView = UIView() >> {
         $0.layer.cornerRadius = 4
@@ -20,7 +25,7 @@ class StatusView: BaseView {
         $0.setHugging(.defaultHigh, for: .vertical)
     }
     
-    override func buildSubviews() {
+    override public func buildSubviews() {
         super.buildSubviews()
         addSubview(statusIndicatorView)
         addSubview(label)
@@ -28,7 +33,7 @@ class StatusView: BaseView {
         setHugging(.defaultHigh, for: .vertical)
     }
     
-    override func buildConstraints() {
+    override public func buildConstraints() {
         super.buildConstraints()
         
         statusIndicatorView.height(8)
@@ -41,18 +46,18 @@ class StatusView: BaseView {
         label.rightToSuperview(offset: -8)
     }
     
-    override func buildAditionalConfiguration() {
+    override public func buildAditionalConfiguration() {
         super.buildAditionalConfiguration()
         backgroundColor = .clear
     }
     
-    func layout(_ status: Character.Status, species: String, style: Style = .cell) {
+    public func layout(_ status: StatusRepresentable, style: Style = .cell) {
         statusIndicatorView.backgroundColor = status.color
-        label.text = status.text + " - " + species
+        label.text = status.text
         label.textColor = style.textColor
     }
     
-    enum Style {
+    public enum Style {
         case cell
         case header
         

@@ -18,16 +18,34 @@ class RickyAndMortyService {
         $0.host = "rickandmortyapi.com"
     }
     
-    func request(path: RickAndMortyEndpoints, withMethod method: RequestMethod, page: Int? = nil) -> Observable<CharactersListResponse> {
-        urlComponents.path = path.rawValue
+    func requestAllCharacters(page: Int? = nil) -> Observable<CharactersListResponse> {
+        urlComponents.path = RickAndMortyEndpoints.allCharacters.rawValue
         if let page = page {
             urlComponents.queryItems = [URLQueryItem(name: "page", value: String(page))]
         }
         
-        return URLManager.request(path: urlComponents.url?.absoluteString ?? "", withMethod: method, body: nil)
+        return URLManager.request(path: urlComponents.url?.absoluteString ?? "", withMethod: .get, body: nil)
+    }
+    
+    func requestMultipleEpisodes(_ episodeUrls: [String]) -> Observable<[EpisodeResponse]> {
+        Observable
+            .from(episodeUrls)
+            .concatMap(requestEpisode)
+            .reduce(AccumulatedEpisodes(), accumulator: accumulate)
+            .map { $0.episodes }
+    }
+    
+    private func requestEpisode( _ episodeUrl: String) -> Observable<EpisodeResponse> {
+        URLManager.request(path: episodeUrl, withMethod: .get)
+    }
+
+    private func accumulate(accumulatedEpisodes: AccumulatedEpisodes, episode: EpisodeResponse) throws -> AccumulatedEpisodes {
+        accumulatedEpisodes.episodes.append(episode)
+        return accumulatedEpisodes
     }
 }
 
 enum RickAndMortyEndpoints: String {
     case allCharacters = "/api/character"
+    case episodes = "/api/episode"
 }

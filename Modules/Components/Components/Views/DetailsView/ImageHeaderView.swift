@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ImageHeaderView: BaseView {
+public class ImageHeaderView: BaseView {
     
     private let imageView = BaseImageView() >> {
         $0.contentMode = .scaleAspectFit
@@ -33,43 +33,30 @@ class ImageHeaderView: BaseView {
     
     private let statusView = StatusView()
     
-    override func buildSubviews() {
+    override public func buildSubviews() {
         super.buildSubviews()
         addSubview(blurredBackgroundImageView)
         addSubview(imageView)
-        addSubview(titleLabel)
-        addSubview(statusView)
     }
     
-    override func buildConstraints() {
+    override public func buildConstraints() {
         super.buildConstraints()
         blurView.edgesToSuperview()
         blurredBackgroundImageView.edgesToSuperview(excluding: .bottom)
-        blurredBackgroundImageView.bottom(to: imageView, imageView.centerYAnchor)
 
         imageView.leftToSuperview(offset: 24)
+        imageView.topToSuperview(self.centerYAnchor)
         imageView.widthToHeight(of: imageView)
-        imageView.bottom(to: self, offset: -24, relation: .equalOrLess)
-        
-        titleLabel.topToBottom(of: blurredBackgroundImageView, offset: 24)
-        titleLabel.leftToRight(of: imageView, offset: 24)
-        titleLabel.rightToSuperview(offset: -24)
-        
-        statusView.topToBottom(of: titleLabel)
-        statusView.leftToRight(of: imageView, offset: 24)
-        statusView.bottomToSuperview(offset: -24)
-        
+        imageView.centerY(to: blurredBackgroundImageView, blurredBackgroundImageView.bottomAnchor)
+        imageView.bottomToSuperview()
     }
     
-    func layout(_ character: Character) {
-        imageView.image(from: character.image)
-        blurredBackgroundImageView.image(from: character.image)
-        titleLabel.text = character.name
-        statusView.layout(character.status, species: character.species, style: .header)
-        
+    public func layout(_ imageUrl: String) {
+        imageView.image(from: imageUrl)
+        blurredBackgroundImageView.image(from: imageUrl)
     }
     
-    override func layoutSubviews() {
+    override public func layoutSubviews() {
         super.layoutSubviews()
         imageView.layer.cornerRadius = imageView.frame.size.height / 2
     }

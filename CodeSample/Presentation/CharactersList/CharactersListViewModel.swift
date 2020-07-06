@@ -23,7 +23,7 @@ class CharactersListViewModel {
     
     func getCharacters() -> Observable<State> {
         service
-            .request(path: .allCharacters, withMethod: .get)
+            .requestAllCharacters()
             .do(onNext: { self.lastPage = $0.info.pages })
             .map { .success($0.results.map { Character($0) }) }
             .catchError(handleError)
@@ -32,7 +32,7 @@ class CharactersListViewModel {
     func getNewPage() -> Observable<State> {
         if page <= lastPage {
             return service
-                .request(path: .allCharacters, withMethod: .get, page: page)
+                .requestAllCharacters(page: page)
                 .do(onNext: { _ in self.page += 1 })
                 .map { .success($0.results.map { Character($0) }) }
                 .catchError(handleError)

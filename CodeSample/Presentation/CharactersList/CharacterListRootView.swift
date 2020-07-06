@@ -33,16 +33,6 @@ class CharactersListRootView: ScreenView {
         render(.contentView(tableView))
     }
     
-//    override func buildSubviews() {
-//        super.buildSubviews()
-//        addSubview(tableView)
-//    }
-//
-//    override func buildConstraints() {
-//        super.buildConstraints()
-//        tableView.edgesToSuperview()
-//    }
-    
     func layout(_ display: Display<CharactersListViewModel.State>) {
         guard let value = display.value else { return }
         switch value {
