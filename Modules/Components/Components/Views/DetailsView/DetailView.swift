@@ -25,6 +25,7 @@ public class DetailView: AloeStackView {
         hidesSeparatorsByDefault = true
         automaticallyHidesLastSeparator = true
         backgroundColor = AppColors.Grays.lightGray
+        delegate = self
     }
     
     @available(*, unavailable)
@@ -76,5 +77,12 @@ public class DetailView: AloeStackView {
     
     func addView(_ view: UIView) {
         addRow(view)
+    }
+}
+
+extension DetailView: UIScrollViewDelegate {
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        print(scrollView.contentOffset.y)
+        
     }
 }

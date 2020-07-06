@@ -11,7 +11,7 @@ class EpisodeView: BaseView {
     
     private let nameLabel = UILabel() >> {
         $0.textAlignment = .left
-        $0.font = .appFont(size: 16, weight: .bold)
+        $0.font = .appFont(size: 20, weight: .bold)
         $0.textColor = AppColors.Grays.lightGray
         $0.numberOfLines = 0
         $0.setHugging(.defaultHigh, for: .vertical)
@@ -32,7 +32,7 @@ class EpisodeView: BaseView {
     
     override func buildConstraints() {
         super.buildConstraints()
-        nameLabel.edgesToSuperview(insets: .uniform(8))
+        nameLabel.edgesToSuperview(insets: .uniform(16))
     }
     
     func layout(_ episode: Episode) {
