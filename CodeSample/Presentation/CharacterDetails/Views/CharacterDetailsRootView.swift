@@ -19,7 +19,9 @@ class CharacterDetailsRootView: ScreenView {
     
     func layout(_ display: Display<CharacterDetailsViewModel.ScreenData>) {
         guard let data = display.value else { return }
-        
         detailView.render(data.rows)
+        let episodesView = EpisodesView()
+        detailView.addRow(episodesView, inset: .zero)
+        episodesView.layout(data.episodes)
     }
 }

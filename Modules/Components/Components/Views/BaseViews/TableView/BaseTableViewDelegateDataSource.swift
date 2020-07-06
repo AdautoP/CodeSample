@@ -32,7 +32,6 @@ extension BaseTableView: UITableViewDelegate {
             let contentHeight = scrollView.contentSize.height
             
             if (lastYOffset > offsetY) && (lastYOffset < contentHeight - scrollView.frame.size.height) {
-                print("lastY: \(lastYOffset) / currentY: \(offsetY)" )
                 footer.hideWarning()
             } else {
                 if offsetY > (contentHeight - scrollView.frame.size.height) && canLoadMorePages {
