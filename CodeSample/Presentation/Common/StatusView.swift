@@ -41,8 +41,26 @@ class StatusView: BaseView {
         label.rightToSuperview(offset: -8)
     }
     
-    func layout(_ status: Character.Status, species: String) {
+    override func buildAditionalConfiguration() {
+        super.buildAditionalConfiguration()
+        backgroundColor = .clear
+    }
+    
+    func layout(_ status: Character.Status, species: String, style: Style = .cell) {
         statusIndicatorView.backgroundColor = status.color
         label.text = status.text + " - " + species
+        label.textColor = style.textColor
+    }
+    
+    enum Style {
+        case cell
+        case header
+        
+        var textColor: UIColor {
+            switch self {
+            case .cell: return AppColors.Grays.black
+            case .header: return AppColors.Grays.lightGray
+            }
+        }
     }
 }

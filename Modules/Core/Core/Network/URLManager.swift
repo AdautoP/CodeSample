@@ -53,7 +53,7 @@ public enum URLManager {
                     throw NetworkErrors.unknownError(code: response.statusCode, body: body ?? [:])
                 }
             }
-    }
+        }
 }
 
 public enum RequestMethod: String {

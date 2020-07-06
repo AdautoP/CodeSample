@@ -22,8 +22,14 @@ class CharacterDetailsController: BaseController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = viewModel.character.name
+        
+        navigationItem.largeTitleDisplayMode = .never
         
         rootView.layout(viewModel.character)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        rootView.layoutSubviews()
     }
 }
