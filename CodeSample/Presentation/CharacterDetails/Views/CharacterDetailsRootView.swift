@@ -8,40 +8,32 @@
 import AloeStackView
 import UIKit
 
-class CharacterDetailsRootView: BaseView {
+class CharacterDetailsRootView: ScreenView {
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-    }
-    
-    private let stackView = AloeStackView() >> {
+    private lazy var stackView = AloeStackView() >> {
         $0.rowInset = .zero
         $0.automaticallyHidesLastSeparator = true
         $0.backgroundColor = AppColors.Grays.lightGray
+        $0.delegate = self
     }
     
     private let imageHeaderView = ImageHeaderView()
     
     private var imageHeight = NSLayoutConstraint()
     
-    override func buildSubviews() {
-        super.buildSubviews()
-        
-        addSubview(stackView)
+    override func buildScreen() {
+        super.buildScreen()
+        render(.contentView(stackView))
         
         stackView.addRow(imageHeaderView)
-    }
-    
-    override func buildConstraints() {
-        super.buildConstraints()
-        
-        stackView.topToSuperview(usingSafeArea: false)
-        stackView.edgesToSuperview(excluding: .top)
-        
-        imageHeight = imageHeaderView.height(to: stackView, multiplier: 0.3)
+        imageHeight = imageHeaderView.height(to: stackView, multiplier: 0.4)
     }
     
     func layout(_ character: Character) {
-        imageHeaderView.layout(character.image)
+        imageHeaderView.layout(character)
     }
+}
+
+extension CharacterDetailsRootView: UIScrollViewDelegate {
+    
 }

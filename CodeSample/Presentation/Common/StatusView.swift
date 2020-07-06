@@ -59,7 +59,7 @@ class StatusView: BaseView {
         var textColor: UIColor {
             switch self {
             case .cell: return AppColors.Grays.black
-            case .header: return AppColors.Grays.lightGray
+            case .header: return AppColors.Grays.black
             }
         }
     }
