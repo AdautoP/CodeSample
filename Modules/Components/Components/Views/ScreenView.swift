@@ -50,7 +50,6 @@ open class ScreenView: BaseView {
         bottomView.addSubview(buttonStackView)
         
         mainStackView.addArrangedSubview(contentStackView)
-        mainStackView.addArrangedSubview(bottomStackView)
         
     }
     
@@ -62,6 +61,7 @@ open class ScreenView: BaseView {
     }
     
     open func render(_ rows: ScreenRowType? ...) {
+        mainStackView.removeArrangedSubview(bottomStackView)
         contentStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
         bottomStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
         
@@ -81,6 +81,7 @@ open class ScreenView: BaseView {
     }
     
     private func addButton(_ button: UIButton) {
+        mainStackView.addArrangedSubview(bottomStackView)
         bottomStackView.addArrangedSubview(bottomView)
         buttonStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
         buttonStackView.addArrangedSubview(button)

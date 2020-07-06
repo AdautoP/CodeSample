@@ -27,9 +27,8 @@ class ImageHeaderView: BaseView {
     }
     
     private let titleLabel = UILabel() >> {
-        $0.font = .appFont(size: 24, weight: .bold)
+        $0.font = .appFont(size: 20, weight: .bold)
         $0.setHugging(.defaultHigh, for: .vertical)
-        $0.numberOfLines = 0
     }
     
     private let statusView = StatusView()
@@ -46,20 +45,19 @@ class ImageHeaderView: BaseView {
         super.buildConstraints()
         blurView.edgesToSuperview()
         blurredBackgroundImageView.edgesToSuperview(excluding: .bottom)
-        
-        imageView.centerY(to: blurredBackgroundImageView, blurredBackgroundImageView.bottomAnchor)
+        blurredBackgroundImageView.bottom(to: imageView, imageView.centerYAnchor)
+
         imageView.leftToSuperview(offset: 24)
         imageView.widthToHeight(of: imageView)
-        imageView.bottom(to: statusView)
+        imageView.bottom(to: self, offset: -24, relation: .equalOrLess)
         
         titleLabel.topToBottom(of: blurredBackgroundImageView, offset: 24)
         titleLabel.leftToRight(of: imageView, offset: 24)
         titleLabel.rightToSuperview(offset: -24)
         
-        statusView.topToBottom(of: titleLabel, offset: 8)
+        statusView.topToBottom(of: titleLabel)
         statusView.leftToRight(of: imageView, offset: 24)
         statusView.bottomToSuperview(offset: -24)
-        
         
     }
     
