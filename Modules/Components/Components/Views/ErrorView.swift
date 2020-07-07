@@ -25,7 +25,7 @@ public class ErrorView: ScreenView {
     private lazy var retryButton = UIButton(type: .system) >> {
         $0.titleLabel?.font = .appFont(size: 16, weight: .regular)
         $0.setTitle("Try again", for: .normal)
-        $0.backgroundColor = AppColors.Interface.yellow
+        $0.backgroundColor = AppColors.Interface.orange
         $0.setTitleColor(AppColors.Grays.black, for: .normal)
         $0.layer.cornerRadius = 16
         $0.contentEdgeInsets = .horizontal(8)

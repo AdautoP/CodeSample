@@ -16,7 +16,7 @@ class EpisodeView: BaseView {
         $0.layer.shadowOffset = CGSize(width: -2, height: 2)
         $0.layer.shadowOpacity = 0.4
         $0.layer.shadowColor = AppColors.Grays.darkerGray.cgColor
-        $0.backgroundColor = AppColors.Interface.yellow
+        $0.backgroundColor = AppColors.Interface.orange
     }
     
     private let nameLabel = BaseLabel() >> {

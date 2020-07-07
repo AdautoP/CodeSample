@@ -9,7 +9,7 @@ import UIKit
 
 public class BaseTableFooterView: BaseView {
     private let activityIndicator = UIActivityIndicatorView(style: .medium) >> {
-        $0.color = AppColors.Interface.yellow
+        $0.color = AppColors.Interface.orange
         $0.hidesWhenStopped = true
     }
     

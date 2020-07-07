@@ -27,5 +27,7 @@ public enum AppColors {
         public static let red = Asset.Colors.red.color
         
         public static let green = Asset.Colors.green.color
+        
+        public static let orange = Asset.Colors.orange.color
     }
 }

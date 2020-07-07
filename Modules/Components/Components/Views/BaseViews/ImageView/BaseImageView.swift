@@ -21,7 +21,7 @@ open class BaseImageView: UIImageView {
     
     private let activityIndicator = UIActivityIndicatorView(style: .large) >> {
         $0.hidesWhenStopped = true
-        $0.color = AppColors.Interface.yellow
+        $0.color = AppColors.Interface.orange
     }
     
     override public init(image: UIImage? = nil) {
