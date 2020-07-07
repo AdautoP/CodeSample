@@ -7,6 +7,15 @@
 
 import UIKit
 
+extension DetailView {
+    func addHeader(_ imageUrl: String) {
+        mainStackView.insertArrangedSubview(topStackView, at: 0)
+        let header = ImageHeaderView() >> { $0.layout(imageUrl) }
+        topStackView.addArrangedSubview(header)
+        topStackViewHeight = header.height(to: self, multiplier: 0.3)
+    }
+}
+
 public class ImageHeaderView: BaseView {
     
     private let imageView = BaseImageView() >> {
@@ -45,6 +54,7 @@ public class ImageHeaderView: BaseView {
         blurredBackgroundImageView.edgesToSuperview(excluding: .bottom)
 
         imageView.leftToSuperview(offset: 24)
+        imageView.rightToSuperview(offset: -24, relation: .equalOrLess)
         imageView.topToSuperview(self.centerYAnchor)
         imageView.widthToHeight(of: imageView)
         imageView.centerY(to: blurredBackgroundImageView, blurredBackgroundImageView.bottomAnchor)
