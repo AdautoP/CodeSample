@@ -16,6 +16,7 @@ open class BaseTableView: BaseView {
         $0.delegate = self
         $0.dataSource = self
         $0.backgroundColor = backgroundColor
+        $0.separatorStyle = .none
     }
     
     public let footer = BaseTableFooterView()
@@ -36,6 +37,8 @@ open class BaseTableView: BaseView {
         get { tableView.contentInset }
         set { tableView.contentInset = newValue }
     }
+    
+    public var hasVisibleCells: Bool { !tableView.visibleCells.isEmpty }
     
     public var canLoadMorePages = true
     public var lastYOffset: CGFloat = 0
@@ -60,6 +63,7 @@ open class BaseTableView: BaseView {
         tableView.reloadData()
         canLoadMorePages = true
         stackView.removeArrangedSubview(footer)
+        layoutIfNeeded()
     }
     
     public func loadMorePages() {

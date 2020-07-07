@@ -23,34 +23,60 @@ class CharactersListViewModel {
     
     func getCharacters() -> Observable<State> {
         service
-            .request(path: .allCharacters, withMethod: .get)
+            .requestAllCharacters()
             .do(onNext: { self.lastPage = $0.info.pages })
             .map { .success($0.results.map { Character($0) }) }
             .catchError(handleError)
     }
     
     func getNewPage() -> Observable<State> {
-        if page <= 3 {
+        if page <= lastPage {
             return service
-                .request(path: .allCharacters, withMethod: .get, page: page)
+                .requestAllCharacters(page: page)
                 .do(onNext: { _ in self.page += 1 })
                 .map { .success($0.results.map { Character($0) }) }
+                .catchError(handleError)
         } else {
             return .just(.noMorePages)
         }
-        
     }
+    
+    /**
+    # THIS FUNCTION IS MERELY FOR DEMONSTRATION
+        
+    - While we can map default errors from status code, maybe in some specific API one specific status code contains a body that carries a custom message to be displayed, with this function below we can handle those specif errors while still transmiting default errors.
+     
+    - Ex:
+    
+    ```swift
+    private func handleError(_ error: Error) -> Observable<State> {
+        if let customError = error as? NetworkErrors {
+            if case let .badRequest(_, body) = customError {
+                if let message = body["message"] as? String {
+                    return .just(.customMessageError(message))
+                }
+            }
+            return .error(error)
+        }
+        return .error(error)
+    }
+    ```
+    **/
     
     private func handleError(_ error: Error) -> Observable<State> {
         if (error as? NetworkErrors) != nil {
-            return .just(.specificError)
+            return .error(error)
         }
         return .error(error)
+    }
+    
+    func selectCharacter(_ character: Character) {
+        router.trigger(.detail(character))
     }
     
     enum State {
         case noMorePages
         case success([Character])
-        case specificError
+        case customMessageError(String)
     }
 }

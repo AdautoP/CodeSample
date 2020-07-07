@@ -25,6 +25,8 @@ struct CharacterResponse: Decodable {
     var gender: String
     var image: String
     var location: Location
+    var origin: Location
+    var episode: [String]
     
     struct Location: Decodable {
         var name: String

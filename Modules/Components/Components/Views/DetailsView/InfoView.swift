@@ -7,9 +7,9 @@
 
 import UIKit
 
-class InfoView: BaseView {
+public class InfoView: BaseView {
     
-    init(info: String) {
+    public init(info: String) {
         infoLabel.text = info
         super.init()
     }
@@ -34,19 +34,19 @@ class InfoView: BaseView {
         $0.numberOfLines = 0
     }
     
-    override func buildSubviews() {
+    override public func buildSubviews() {
         super.buildSubviews()
         addSubview(stackView)
         stackView.addArrangedSubview(infoLabel)
         stackView.addArrangedSubview(valueLabel)
     }
     
-    override func buildConstraints() {
+    override public func buildConstraints() {
         super.buildConstraints()
         stackView.edgesToSuperview()
     }
     
-    func bind(value: String) {
+    public func bind(value: String) {
         valueLabel.text = value
     }
 }

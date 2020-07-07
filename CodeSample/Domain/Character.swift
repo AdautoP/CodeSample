@@ -12,11 +12,30 @@ struct Character {
     var name: String
     var status: Status
     var species: String
-    var gender: String
     var image: String
-    var lastLocation: String
+    var lastLocation: CharacterResponse.Location
+    var origin: CharacterResponse.Location
+    var gender: Gender
+    var episodes: [Episode] = []
+    var episodesUrls: [String]
     
-    enum Status {
+    enum Gender: String {
+        case male = "Male"
+        case female = "Female"
+        case genderless = "Genderless"
+        case unknown = "Unknown"
+        
+        init(_ gender: String) {
+            switch gender {
+            case "Male": self = .male
+            case "Female": self = .female
+            case "Genderless": self = .genderless
+            default: self = .unknown
+            }
+        }
+    }
+    
+    enum Status: StatusRepresentable {
         case alive
         case dead
         case unknown
@@ -53,8 +72,16 @@ extension Character {
         name = response.name
         status = Status(response.status)
         species = response.species
-        gender = response.gender
+        gender = Gender(response.gender)
         image = response.image
-        lastLocation = response.location.name
+        lastLocation = response.location
+        origin = response.origin
+        episodesUrls = response.episode
+    }
+    
+    @discardableResult
+    mutating func updating(_ episodes: [Episode]) -> Character {
+        self.episodes = episodes
+        return self
     }
 }

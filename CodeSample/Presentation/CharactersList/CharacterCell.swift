@@ -23,7 +23,6 @@ class CharacterCell: BaseTableViewCell {
         $0.contentMode = .scaleAspectFill
         $0.layer.maskedCorners = .init(arrayLiteral: .layerMinXMinYCorner, .layerMinXMaxYCorner)
         $0.layer.cornerRadius = 16
-        $0.clipsToBounds = true
         $0.setContentCompressionResistancePriority(.init(rawValue: 249), for: .vertical)
         $0.setContentCompressionResistancePriority(.init(rawValue: 249), for: .horizontal)
     }
@@ -72,10 +71,10 @@ class CharacterCell: BaseTableViewCell {
         
     }
     
-    func bind(_ response: Character) {
+    func layout(_ response: Character) {
         baseImageView.image(from: response.image)
         nameLabel.text = response.name
-        statusView.bind(response.status, species: response.species)
-        lastLocationInfoView.bind(value: response.lastLocation)
+        statusView.layout(response.status)
+        lastLocationInfoView.bind(value: response.lastLocation.name)
     }
 }

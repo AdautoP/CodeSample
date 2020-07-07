@@ -49,6 +49,10 @@ extension CharactersListController {
 }
 
 extension CharactersListController: CharactersListRootViewDelegate {
+    func didSelect(character: Character) {
+        viewModel.selectCharacter(character)
+    }
+    
     func fetchMoreItems() {
         viewModel
             .getNewPage()

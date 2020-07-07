@@ -29,7 +29,31 @@ open class BaseImageView: UIImageView {
         self.image = image
         
         addSubview(activityIndicator)
+        clipsToBounds = true
         activityIndicator.centerInSuperview()
+        
+        bind()
+    }
+    
+    private func bind() {
+        viewModel
+            .stateObservable
+            .observeOn(MainScheduler.instance)
+            .do(onNext: {
+                switch $0 {
+                case .loading: self.activityIndicator.startAnimating()
+                default: self.activityIndicator.stopAnimating()
+                }
+            })
+            .map {
+                switch $0 {
+                case let .success(image): return image
+                case .failure: return self.emptyImage
+                default: return UIImage()
+                }
+            }
+            .bind(to: rx.image)
+            .disposed(by: disposeBag)
     }
     
     @available(*, unavailable)
@@ -38,25 +62,6 @@ open class BaseImageView: UIImageView {
     }
     
     open func image(from urlString: String) {
-        viewModel
-            .getImageFromUrl(urlString)
-            .displayable(retryAction: nil)
-            .observeOn(MainScheduler.instance)
-            .subscribe(onNext: {
-                switch $0 {
-                case .loading:
-                    self.image = nil
-                    self.activityIndicator.startAnimating()
-                    
-                case let .success(image):
-                    self.activityIndicator.stopAnimating()
-                    self.image = image
-                    
-                default:
-                    self.activityIndicator.stopAnimating()
-                    self.image = self.emptyImage
-                }
-            })
-            .disposed(by: disposeBag)
+        viewModel.getImageFromUrl(urlString)
     }
 }
