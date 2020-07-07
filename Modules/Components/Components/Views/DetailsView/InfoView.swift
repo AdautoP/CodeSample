@@ -7,6 +7,13 @@
 
 import UIKit
 
+extension DetailView {
+    func addVerticalText(title: String, value: String) {
+        let infoRow = InfoView(info: title) >> { $0.bind(value: value) }
+        detailStackView.addRow(infoRow)
+    }
+}
+
 public class InfoView: BaseView {
     
     public init(info: String) {

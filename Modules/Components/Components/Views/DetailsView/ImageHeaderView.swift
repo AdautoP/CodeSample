@@ -7,6 +7,14 @@
 
 import UIKit
 
+extension DetailView {
+    func addHeader(_ imageUrl: String) {
+        let header = ImageHeaderView() >> { $0.layout(imageUrl) }
+        topStackView.addArrangedSubview(header)
+        topStackViewHeight = header.height(to: self, multiplier: 0.3)
+    }
+}
+
 public class ImageHeaderView: BaseView {
     
     private let imageView = BaseImageView() >> {

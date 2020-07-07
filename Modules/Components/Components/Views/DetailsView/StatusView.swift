@@ -7,6 +7,13 @@
 
 import UIKit
 
+extension DetailView {
+    func addStatus(_ status: StatusRepresentable) {
+        let statusView = StatusView() >> { $0.layout(status) }
+        detailStackView.addRow(statusView)
+    }
+}
+
 public protocol StatusRepresentable {
     var color: UIColor { get }
     var text: String { get }
