@@ -43,7 +43,7 @@ class EpisodesView: BaseView {
         episodesViews = episodes.map { episode in
             EpisodeView() >> {
                 $0.layout(episode)
-                $0.height(200)
+                $0.height(150)
                 $0.width(150)
             }
         }
