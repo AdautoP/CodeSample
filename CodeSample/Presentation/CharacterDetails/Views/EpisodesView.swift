@@ -51,9 +51,9 @@ class EpisodesView: BaseView {
         episodesViews.enumerated().forEach { stackView.addRow($0.element) }
         
         guard let firstRow = stackView.firstRow else { return }
-        guard let lastRow = stackView.lastRow else { return }
-        
         stackView.setInset(forRow: firstRow, inset: .left(14))
+        
+        guard let lastRow = stackView.lastRow, stackView.getAllRows().count > 1 else { return }
         stackView.setInset(forRow: lastRow, inset: .right(14))
     }
 }
