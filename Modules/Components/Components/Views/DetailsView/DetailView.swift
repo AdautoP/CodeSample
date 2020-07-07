@@ -10,6 +10,8 @@ import UIKit
 
 public class DetailView: BaseView {
     
+    private var isAnimating = false
+    
     internal var topStackViewHeight = NSLayoutConstraint()
     
     internal let topStackView = UIStackView() >> {
@@ -93,11 +95,12 @@ extension DetailView: UIScrollViewDelegate {
         let constant = topStackViewHeight.constant
 
         if yOffset < 0 {
-            if constant < 50 && constant - yOffset < 50 {
-                topStackViewHeight.constant -= yOffset
-            } else {
-                topStackViewHeight.constant += constant + 1 <= 0 ? 1 : 0
-            }
+            topStackViewHeight.constant -= yOffset
+//            if constant < 50 && constant - yOffset < 50 {
+//                topStackViewHeight.constant -= yOffset
+//            } else {
+//                topStackViewHeight.constant += constant + 1 <= 0 ? 1 : 0
+//            }
         } else {
             if yOffset < self.frame.height / 3 && constant - yOffset > -self.frame.height / 3 {
                 topStackViewHeight.constant -= yOffset
@@ -110,17 +113,23 @@ extension DetailView: UIScrollViewDelegate {
         layoutIfNeeded()
     }
     
-    public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        if topStackViewHeight.constant > 0 {
+    public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if topStackViewHeight.constant > 0, !isAnimating {
             self.topStackViewHeight.constant = 0
+            isAnimating = true
             UIView.animate(withDuration: 0.2, animations: {
                 self.layoutIfNeeded()
-            })
+            }, completion: { _ in self.isAnimating = false })
         }
-        scrollView.bounces = true
     }
     
-    public func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
-        scrollView.bounces = false
+    public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        if topStackViewHeight.constant > 0, !isAnimating {
+            self.topStackViewHeight.constant = 0
+            isAnimating = true
+            UIView.animate(withDuration: 0.2, animations: {
+                self.layoutIfNeeded()
+            }, completion: { _ in self.isAnimating = false })
+        }
     }
 }
