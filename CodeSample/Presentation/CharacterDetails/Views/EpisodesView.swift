@@ -21,8 +21,8 @@ class EpisodesView: BaseView {
     private let stackView = AloeStackView() >> {
         $0.axis = .horizontal
         $0.hidesSeparatorsByDefault = true
-        $0.rowInset = .init(top: 24, left: 0, bottom: 24, right: 20)
         $0.backgroundColor = AppColors.Grays.lightGray
+        $0.rowInset = .zero
     }
     
     override func buildSubviews() {
@@ -43,16 +43,17 @@ class EpisodesView: BaseView {
         episodesViews = episodes.map { episode in
             EpisodeView() >> {
                 $0.layout(episode)
-                $0.height(150)
+                $0.height(200)
                 $0.width(150)
             }
         }
         
-        episodesViews.enumerated().forEach {
-            stackView.addRow($0.element)
-            if $0.offset == 0 {
-                stackView.setInset(forRow: $0.element, inset: .init(top: 24, left: 24, bottom: 24, right: 20))
-            }
-        }
+        episodesViews.enumerated().forEach { stackView.addRow($0.element) }
+        
+        guard let firstRow = stackView.firstRow else { return }
+        guard let lastRow = stackView.lastRow else { return }
+        
+        stackView.setInset(forRow: firstRow, inset: .left(14))
+        stackView.setInset(forRow: lastRow, inset: .right(14))
     }
 }
