@@ -95,14 +95,19 @@ extension DetailView: UIScrollViewDelegate {
         if yOffset < 0 {
             if constant < 50 && constant - yOffset < 50 {
                 topStackViewHeight.constant -= yOffset
-                layoutIfNeeded()
+            } else {
+                topStackViewHeight.constant += constant + 1 <= 0 ? 1 : 0
             }
         } else {
-            if yOffset < self.frame.height && constant > -self.frame.height {
+            if yOffset < self.frame.height / 3 && constant - yOffset > -self.frame.height / 3 {
                 topStackViewHeight.constant -= yOffset
-                layoutIfNeeded()
+                scrollView.contentOffset.y -= yOffset
+            } else {
+                topStackViewHeight.constant -= constant - 1 >= -self.frame.height ? 1 : 0
+                scrollView.contentOffset.y -= constant - 1 >= -self.frame.height ? 1 : 0
             }
         }
+        layoutIfNeeded()
     }
     
     public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
