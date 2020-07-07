@@ -10,6 +10,13 @@ import UIKit
 
 public class DetailView: BaseView {
     
+    internal let mainStackView = UIStackView() >> {
+        $0.backgroundColor = AppColors.Grays.lightGray
+        $0.spacing = 0
+        $0.distribution = .fill
+        $0.axis = .vertical
+    }
+    
     private var isAnimating = false
     
     internal var topStackViewHeight = NSLayoutConstraint()
@@ -33,17 +40,14 @@ public class DetailView: BaseView {
     
     override public func buildSubviews() {
         super.buildSubviews()
-        addSubview(topStackView)
-        addSubview(detailStackView)
+        addSubview(mainStackView)
+        mainStackView.addArrangedSubview(topStackView)
+        mainStackView.addArrangedSubview(detailStackView)
     }
     
     override public func buildConstraints() {
         super.buildConstraints()
-        topStackView.edgesToSuperview(excluding: .bottom)
-        topStackViewHeight = topStackView.heightToSuperview(multiplier: 0.3)
-        
-        detailStackView.topToBottom(of: topStackView)
-        detailStackView.edgesToSuperview(excluding: .top)
+        mainStackView.edgesToSuperview(usingSafeArea: true)
     }
     
     public func render(_ rows: DetailRowType ...) {
@@ -52,8 +56,8 @@ public class DetailView: BaseView {
     
     public func render( _ rows: [DetailRowType]) {
         detailStackView.removeAllRows()
+        topStackView.removeFromSuperview()
         topStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
-        topStackViewHeight.constant = -self.frame.height / 3
         
         rows.forEach {
             switch $0 {
@@ -96,11 +100,6 @@ extension DetailView: UIScrollViewDelegate {
 
         if yOffset < 0 {
             topStackViewHeight.constant -= yOffset
-//            if constant < 50 && constant - yOffset < 50 {
-//                topStackViewHeight.constant -= yOffset
-//            } else {
-//                topStackViewHeight.constant += constant + 1 <= 0 ? 1 : 0
-//            }
         } else {
             if yOffset < self.frame.height / 3 && constant - yOffset > -self.frame.height / 3 {
                 topStackViewHeight.constant -= yOffset
