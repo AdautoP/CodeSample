@@ -25,6 +25,8 @@ public class DetailView: BaseView {
         $0.automaticallyHidesLastSeparator = true
         $0.backgroundColor = AppColors.Grays.lightGray
         $0.delegate = self
+        $0.alwaysBounceVertical = true
+        $0.bounces = true
     }
     
     override public func buildSubviews() {
@@ -87,23 +89,33 @@ public class DetailView: BaseView {
 extension DetailView: UIScrollViewDelegate {
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
-        scrollView.isScrollEnabled = true
-        
         let yOffset = scrollView.contentOffset.y
+        let constant = topStackViewHeight.constant
 
         if yOffset < 0 {
-            if topStackViewHeight.constant < 50 {
+            if constant < 50 && constant - yOffset < 50 {
                 topStackViewHeight.constant -= yOffset
+                layoutIfNeeded()
             }
         } else {
-            if yOffset < self.frame.height && topStackViewHeight.constant > -self.frame.height {
+            if yOffset < self.frame.height && constant > -self.frame.height {
                 topStackViewHeight.constant -= yOffset
+                layoutIfNeeded()
             }
         }
     }
     
-    public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        detailStackView.isScrollEnabled = true
-        scrollView.isScrollEnabled = true
+    public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        if topStackViewHeight.constant > 0 {
+            self.topStackViewHeight.constant = 0
+            UIView.animate(withDuration: 0.2, animations: {
+                self.layoutIfNeeded()
+            })
+        }
+        scrollView.bounces = true
+    }
+    
+    public func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
+        scrollView.bounces = false
     }
 }
