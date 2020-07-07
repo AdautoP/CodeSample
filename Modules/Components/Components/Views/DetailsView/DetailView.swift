@@ -26,6 +26,7 @@ public class DetailView: AloeStackView {
         automaticallyHidesLastSeparator = true
         backgroundColor = AppColors.Grays.lightGray
         delegate = self
+        bounces = false
     }
     
     @available(*, unavailable)
