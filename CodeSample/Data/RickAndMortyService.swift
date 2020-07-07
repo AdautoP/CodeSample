@@ -18,10 +18,15 @@ class RickyAndMortyService {
         $0.host = "rickandmortyapi.com"
     }
     
-    func requestAllCharacters(page: Int? = nil) -> Observable<CharactersListResponse> {
+    func requestAllCharacters(page: Int? = nil, name: String? = nil) -> Observable<CharactersListResponse> {
         urlComponents.path = RickAndMortyEndpoints.allCharacters.rawValue
+        urlComponents.queryItems = []
         if let page = page {
-            urlComponents.queryItems = [URLQueryItem(name: "page", value: String(page))]
+            urlComponents.queryItems?.append(URLQueryItem(name: "page", value: String(page)))
+        }
+        
+        if let name = name {
+            urlComponents.queryItems?.append(URLQueryItem(name: "name", value: name))
         }
         
         return URLManager.request(path: urlComponents.url?.absoluteString ?? "", withMethod: .get, body: nil)

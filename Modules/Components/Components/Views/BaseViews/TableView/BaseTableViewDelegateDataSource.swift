@@ -34,10 +34,10 @@ extension BaseTableView: UITableViewDelegate {
             if (lastYOffset > offsetY) && (lastYOffset < contentHeight - scrollView.frame.size.height) {
                 footer.hideWarning()
             } else {
-                if offsetY > (contentHeight - scrollView.frame.size.height) && canLoadMorePages {
+                if offsetY > (contentHeight - scrollView.frame.height) && contentHeight - scrollView.frame.height > 0 && canLoadMorePages {
                     canLoadMorePages = false
-                    loadMorePages()
                     delegate?.fetchMoreItems?()
+                    loadMorePages()
                 }
             }
             lastYOffset = offsetY
