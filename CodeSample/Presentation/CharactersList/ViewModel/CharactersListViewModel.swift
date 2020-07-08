@@ -16,16 +16,28 @@ class CharactersListViewModel {
     private var page = 2
     private var lastPage = 99_999
     
+    private(set) var allCharacter = [Character]()
+    
     init(router: WeakRouter<AppRoute>, service: RickyAndMortyService = .init()) {
         self.router = router
         self.service = service
     }
     
-    func getCharacters() -> Observable<State> {
+    func getCharacters(_ stored: Bool = false) -> Observable<State> {
         service
             .requestAllCharacters()
             .do(onNext: { self.lastPage = $0.info.pages })
-            .map { .success($0.results.map { Character($0) }) }
+            .map { $0.results.map { Character($0) } }
+            .do(onNext: { self.allCharacter = $0 })
+            .map { .success($0) }
+            .catchError(handleError)
+    }
+    
+    func getCharactersByName(name: String) -> Observable<State> {
+        service
+            .requestAllCharacters(name: name)
+            .map { $0.results.map { Character($0) } }
+            .map { .success($0) }
             .catchError(handleError)
     }
     
@@ -33,8 +45,12 @@ class CharactersListViewModel {
         if page <= lastPage {
             return service
                 .requestAllCharacters(page: page)
-                .do(onNext: { _ in self.page += 1 })
-                .map { .success($0.results.map { Character($0) }) }
+                .map { $0.results.map { Character($0) } }
+                .do(onNext: {
+                    self.page += 1
+                    self.allCharacter += $0
+                })
+                .map { _ in .success(self.allCharacter) }
                 .catchError(handleError)
         } else {
             return .just(.noMorePages)

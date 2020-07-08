@@ -5,12 +5,17 @@
 //  Created by Adauto Pinheiro on 02/07/20.
 //
 
-import Foundation
 import RxCocoa
 import RxSwift
+import UIKit
 
 class CharactersListController: BaseController {
     private let disposeBag = DisposeBag()
+    
+    private lazy var searchController = BaseSearchController() >> {
+        $0.searchBar.delegate = self
+        $0.
+    }
     
     private let viewModel: CharactersListViewModel
     private lazy var rootView = CharactersListRootView() >> { $0.delegate = self }
@@ -19,6 +24,7 @@ class CharactersListController: BaseController {
         self.viewModel = viewModel
         super.init()
         title = "Characters"
+        navigationItem.searchController = searchController
     }
     
     override func loadView() {
@@ -28,6 +34,14 @@ class CharactersListController: BaseController {
     override func viewDidLoad() {
         super.viewDidLoad()
         getCharacters()
+        
+        searchController
+            .searchBar
+            .rx
+            .text
+            .debounce(.milliseconds(500), scheduler: MainScheduler.instance)
+            .subscribe(onNext: { self.getCharacterByName($0) })
+            .disposed(by: disposeBag)
     }
     
     private func getCharacters() {
@@ -36,6 +50,15 @@ class CharactersListController: BaseController {
             .displayable(retryAction: getCharacters)
             .bind(to: state)
             .disposed(by: disposeBag)
+    }
+    
+    private func getCharacterByName(_ text: String?) {
+        guard let text = text, !text.isEmpty else { return }
+        self.viewModel
+            .getCharactersByName(name: text)
+            .displayable(retryAction: nil)
+            .bind(to: self.state)
+            .disposed(by: self.disposeBag)
     }
 }
 
@@ -57,6 +80,24 @@ extension CharactersListController: CharactersListRootViewDelegate {
         viewModel
             .getNewPage()
             .displayableWithoutLoading(retryAction: fetchMoreItems)
+            .bind(to: state)
+            .disposed(by: disposeBag)
+    }
+}
+
+extension CharactersListController: UISearchBarDelegate {
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        searchBar.setShowsCancelButton(true, animated: true)
+    }
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        searchBar.setShowsCancelButton(false, animated: true)
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        Observable
+            .just(.success(viewModel.allCharacter))
+            .displayable(retryAction: nil)
             .bind(to: state)
             .disposed(by: disposeBag)
     }

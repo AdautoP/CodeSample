@@ -63,7 +63,7 @@ open class BaseTableView: BaseView {
         tableView.reloadData()
         canLoadMorePages = true
         stackView.removeArrangedSubview(footer)
-        layoutIfNeeded()
+        stackView.layoutSubviews()
     }
     
     public func loadMorePages() {

@@ -36,7 +36,7 @@ class CharactersListRootView: ScreenView {
     func layout(_ display: Display<CharactersListViewModel.State>) {
         guard let value = display.value else { return }
         switch value {
-        case let .success(characters): self.characters += characters
+        case let .success(characters): self.characters = characters
         case .noMorePages: tableView.noMorePages()
         default: break
         }

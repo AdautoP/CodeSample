@@ -17,11 +17,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        UIFont.registerFonts()
+        UIBarButtonItem.setAppAppearance()
+        
         window = UIWindow()
         window?.makeKeyAndVisible()
         window?.rootViewController = coordinator.rootViewController
-        
-        UIFont.registerFonts()
         
         return true
     }
