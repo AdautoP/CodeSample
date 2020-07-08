@@ -19,6 +19,11 @@ public class BaseTableFooterView: BaseView {
         $0.textColor = AppColors.Grays.black
         $0.text = "No more items to show."
         $0.isHidden = true
+        $0.setCompressionResistance(.defaultHigh, for: .vertical)
+    }
+    
+    public var state: State = .idle {
+        didSet { resolveState(state) }
     }
     
     override public func buildSubviews() {
@@ -30,27 +35,35 @@ public class BaseTableFooterView: BaseView {
     override public func buildConstraints() {
         super.buildConstraints()
         activityIndicator.centerInSuperview()
-        activityIndicator.verticalToSuperview(insets: .vertical(8))
         
         label.edgesToSuperview()
     }
-     
-    public func hideWarning() {
-        label.isHidden = true
-        removeFromSuperview()
+    
+    public enum State {
+        case loading
+        case noMorePages
+        case idle
     }
     
-    public func startAnimating() {
-        activityIndicator.isHidden = false
-        activityIndicator.startAnimating()
-    }
-    
-    public func stopAnimating() {
-        activityIndicator.isHidden = true
-        activityIndicator.stopAnimating()
-    }
-    
-    public func noMorePages() {
-        label.isHidden = false
+    private func resolveState(_ state: State) {
+        switch state {
+        case .idle:
+            activityIndicator.stopAnimating()
+            activityIndicator.isHidden = true
+            label.isHidden = true
+            isHidden = true
+            
+        case .loading:
+            activityIndicator.startAnimating()
+            activityIndicator.isHidden = false
+            label.isHidden = true
+            isHidden = false
+            
+        case .noMorePages:
+            activityIndicator.stopAnimating()
+            activityIndicator.isHidden = true
+            label.isHidden = false
+            isHidden = false
+        }
     }
 }
