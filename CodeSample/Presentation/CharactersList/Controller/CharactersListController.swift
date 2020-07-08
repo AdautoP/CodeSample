@@ -14,7 +14,6 @@ class CharactersListController: BaseController {
     
     private lazy var searchController = BaseSearchController() >> {
         $0.searchBar.delegate = self
-        $0.
     }
     
     private let viewModel: CharactersListViewModel
