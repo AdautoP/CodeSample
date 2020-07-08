@@ -1,17 +1,37 @@
-# Installation
+<p align="center">
+  <img src="https://i.ibb.co/qCYZwwt/i-Tunes-Artwork-1x.png">
+</p>
 
-## Pre-requisites
-You will have to install the following tools:
 
-- [Carthage](https://github.com/Carthage/Carthage)
-- [Swiftlint](https://github.com/realm/SwiftLint)
-- [SwiftGen](https://github.com/SwiftGen/SwiftGen)
-- [XcodeGen](https://github.com/yonaskolb/XcodeGen)
+[![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage) [![Platform](https://img.shields.io/badge/platform-iOS-lightgrey.svg)](https://github.com/AdautoP/CodeSample/)
+
+# Sobre
+
+CodeSample é um nome genérico para um projeto com intuito de prática e estudo de tecnologias de desenvolvimento diversas, assim como portfólio. Nele consumo a REST API do [Rick and Morty](https://rickandmortyapi.com/). 
+
+## Stack
+
+- MVVM + Clean
+- RxSwift
+- Submódulos em Monorepo
+- XcodeGen
+- Fastlane
+- SwiftGen
+
+# Instalação
+
+## Pré-requisitos
+Você vai precisar instalar as ferramentas abaixo para rodar o projeto:
+
+- [Carthage](https://github.com/Carthage/Carthage) para gerenciamento de dependências.
+- [Swiftlint](https://github.com/realm/SwiftLint) para gerenciamento de regras de código.
+- [SwiftGen](https://github.com/SwiftGen/SwiftGen) para geração de Assets e Strings.
+- [XcodeGen](https://github.com/yonaskolb/XcodeGen) para geração do xcodeproj.
 
 
 ## Scripts
 
-While in the project root run the following scripts in order:
+Enquanto na pasta raiz do projeto, rode:
 ```sh
 ./Bin/carthage-bootstrap
 ```
