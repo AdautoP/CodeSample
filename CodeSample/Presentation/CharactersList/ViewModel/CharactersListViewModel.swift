@@ -80,8 +80,10 @@ class CharactersListViewModel {
     **/
     
     private func handleError(_ error: Error) -> Observable<State> {
-        if (error as? NetworkErrors) != nil {
-            return .error(error)
+        if let networkError = (error as? NetworkErrors) {
+            if case let .badRequest(code, body) = networkError, code == 404 {
+                //
+            }
         }
         return .error(error)
     }
