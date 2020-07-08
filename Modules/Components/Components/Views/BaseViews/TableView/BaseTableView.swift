@@ -12,6 +12,8 @@ open class BaseTableView: BaseView {
     public weak var delegate: BaseTableViewDelegate?
     public weak var dataSource: BaseTableViewDataSource?
     
+    public var nomeMorePages = false
+    
     private lazy var tableView = UITableView() >> {
         $0.delegate = self
         $0.dataSource = self
@@ -20,13 +22,6 @@ open class BaseTableView: BaseView {
     }
     
     public let footer = BaseTableFooterView()
-    
-    private let stackView = UIStackView() >> {
-        $0.spacing = 0
-        $0.distribution = .fill
-        $0.axis = .vertical
-        $0.backgroundColor = AppColors.Grays.lightGray
-    }
     
     public var separatorStyle: UITableViewCell.SeparatorStyle {
         get { tableView.separatorStyle }
@@ -45,14 +40,20 @@ open class BaseTableView: BaseView {
     
     override open func buildSubviews() {
         super.buildSubviews()
-        addSubview(stackView)
+        addSubview(tableView)
+        tableView.tableFooterView = footer
         
-        stackView.addArrangedSubview(tableView)
+        footer.frame = CGRect(
+            x: 0,
+            y: tableView.bounds.maxY,
+            width: tableView.bounds.width,
+            height: 24
+        )
     }
     
     override open func buildConstraints() {
         super.buildConstraints()
-        stackView.edgesToSuperview(usingSafeArea: true)
+        tableView.edgesToSuperview(usingSafeArea: true)
     }
     
     public func register(_ cellClass: AnyClass?, forCellReuseIdentifier: String) {
@@ -62,21 +63,6 @@ open class BaseTableView: BaseView {
     public func reloadData() {
         tableView.reloadData()
         canLoadMorePages = true
-        stackView.removeArrangedSubview(footer)
-        stackView.layoutSubviews()
-    }
-    
-    public func loadMorePages() {
-        stackView.addArrangedSubview(footer)
-        footer.startAnimating()
-        canLoadMorePages = false
-    }
-    
-    public func noMorePages() {
-        stackView.addArrangedSubview(footer)
-        footer.stopAnimating()
-        footer.noMorePages()
-        lastYOffset = 0
-        canLoadMorePages = true
+        footer.state = .idle
     }
 }

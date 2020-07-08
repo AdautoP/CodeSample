@@ -32,12 +32,15 @@ extension BaseTableView: UITableViewDelegate {
             let contentHeight = scrollView.contentSize.height
             
             if (lastYOffset > offsetY) && (lastYOffset < contentHeight - scrollView.frame.size.height) {
-                footer.hideWarning()
+                footer.state = .idle
             } else {
-                if offsetY > (contentHeight - scrollView.frame.height) && contentHeight - scrollView.frame.height > 0 && canLoadMorePages {
+                if offsetY > (contentHeight - scrollView.frame.height) && contentHeight - scrollView.frame.height > 0 && canLoadMorePages && !nomeMorePages {
                     canLoadMorePages = false
+                    footer.state = .loading
                     delegate?.fetchMoreItems?()
-                    loadMorePages()
+                    
+                } else if nomeMorePages {
+                    footer.state = .noMorePages
                 }
             }
             lastYOffset = offsetY
