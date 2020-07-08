@@ -44,6 +44,7 @@ open class BaseController: UIViewController {
     }
     
     open func layout<T>(_ display: Display<T>) {
+        navigationItem.searchController?.searchBar.endEditing(true)
         errorView.layout(display)
         loadingView.layout(display)
     }
