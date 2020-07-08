@@ -12,10 +12,9 @@ import UIKit
 class CharactersListController: BaseController {
     private let disposeBag = DisposeBag()
     
-    private lazy var searchController = UISearchController() >> {
-        $0.obscuresBackgroundDuringPresentation = false
-        $0.searchBar.showsCancelButton = false
+    private lazy var searchController = BaseSearchController() >> {
         $0.searchBar.delegate = self
+        $0.
     }
     
     private let viewModel: CharactersListViewModel
@@ -25,6 +24,7 @@ class CharactersListController: BaseController {
         self.viewModel = viewModel
         super.init()
         title = "Characters"
+        navigationItem.searchController = searchController
     }
     
     override func loadView() {
@@ -35,7 +35,6 @@ class CharactersListController: BaseController {
         super.viewDidLoad()
         getCharacters()
         
-        navigationItem.searchController = searchController
         searchController
             .searchBar
             .rx
