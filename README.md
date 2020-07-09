@@ -5,6 +5,12 @@
 
 [![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage) [![Platform](https://img.shields.io/badge/platform-iOS-lightgrey.svg)](https://github.com/AdautoP/CodeSample/)
 
+# Preview
+
+<p align="center">
+  <img src="https://media3.giphy.com/media/Rfdg77MUXCVIX8NsvC/giphy.gif">
+</p>
+
 # Sobre
 
 CodeSample é um nome genérico para um projeto com intuito de prática e estudo de tecnologias de desenvolvimento diversas, assim como portfólio. Nele consumo a REST API do [Rick and Morty](https://rickandmortyapi.com/). 
