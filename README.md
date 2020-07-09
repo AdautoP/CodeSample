@@ -8,7 +8,7 @@
 # Preview
 
 <p align="center">
-  <img src="https://media3.giphy.com/media/Rfdg77MUXCVIX8NsvC/giphy.gif">
+  <img src="https://media1.giphy.com/media/hqmYJBuXfvpYJMTyTY/giphy.gif">
 </p>
 
 # Sobre
