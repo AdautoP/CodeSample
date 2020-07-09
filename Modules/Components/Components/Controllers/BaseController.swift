@@ -28,6 +28,8 @@ open class BaseController: UIViewController {
         errorView.edgesToSuperview()
         loadingView.edgesToSuperview()
         
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationBar.titleTextAttributes = [
@@ -44,7 +46,6 @@ open class BaseController: UIViewController {
     }
     
     open func layout<T>(_ display: Display<T>) {
-        navigationItem.searchController?.searchBar.endEditing(true)
         errorView.layout(display)
         loadingView.layout(display)
     }
