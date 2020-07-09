@@ -36,10 +36,11 @@ class CharactersListController: BaseController {
         
         searchController
             .searchBar
+            .searchTextField
             .rx
-            .text
-            .debounce(.milliseconds(500), scheduler: MainScheduler.instance)
-            .subscribe(onNext: { self.getCharacterByName($0) })
+            .controlEvent(.editingDidEnd)
+            .subscribe(onNext: {
+                self.getCharacterByName(self.searchController.searchBar.text) })
             .disposed(by: disposeBag)
     }
     
@@ -55,7 +56,7 @@ class CharactersListController: BaseController {
         guard let text = text, !text.isEmpty else { return }
         self.viewModel
             .getCharactersByName(name: text)
-            .displayable(retryAction: nil)
+            .displayable(retryAction: getCharacters)
             .bind(to: self.state)
             .disposed(by: self.disposeBag)
     }
@@ -96,7 +97,7 @@ extension CharactersListController: UISearchBarDelegate {
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         Observable
             .just(.success(viewModel.allCharacter))
-            .displayable(retryAction: nil)
+            .displayableWithoutLoading(retryAction: nil)
             .bind(to: state)
             .disposed(by: disposeBag)
     }
