@@ -86,6 +86,16 @@ extension CharactersListController: CharactersListRootViewDelegate {
 }
 
 extension CharactersListController: UISearchBarDelegate {
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        guard searchText.isEmpty else { return }
+        Observable
+            .just(.success(viewModel.allCharacter))
+            .displayableWithoutLoading(retryAction: nil)
+            .bind(to: state)
+            .disposed(by: disposeBag)
+    }
+    
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         searchBar.setShowsCancelButton(true, animated: true)
     }
