@@ -44,7 +44,10 @@ class RickyAndMortyService {
         URLManager.request(path: episodeUrl, withMethod: .get)
     }
 
-    private func accumulate(accumulatedEpisodes: AccumulatedEpisodes, episode: EpisodeResponse) throws -> AccumulatedEpisodes {
+    private func accumulate(
+        accumulatedEpisodes: AccumulatedEpisodes,
+        episode: EpisodeResponse
+    ) throws -> AccumulatedEpisodes {
         accumulatedEpisodes.episodes.append(episode)
         return accumulatedEpisodes
     }

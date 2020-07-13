@@ -10,6 +10,13 @@ import Foundation
 // swiftlint:disable explicit_type_interface function_parameter_count identifier_name line_length
 // swiftlint:disable nesting type_body_length type_name
 internal enum L10n {
+
+  internal enum GenericError {
+    /// Sorry for the incovenience, try again.
+    internal static let subtitle = L10n.tr("Localizable", "GenericError.Subtitle")
+    /// Oops, something bad happened.
+    internal static let title = L10n.tr("Localizable", "GenericError.Title")
+  }
 }
 // swiftlint:enable explicit_type_interface function_parameter_count identifier_name line_length
 // swiftlint:enable nesting type_body_length type_name

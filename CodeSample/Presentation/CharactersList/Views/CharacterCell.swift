@@ -35,7 +35,7 @@ class CharacterCell: BaseTableViewCell {
     
     private let statusView = StatusView()
     
-    private let lastLocationInfoView = InfoView(info: "Last Location")
+    private let lastLocationInfoView = InfoView(info: L10n.Details.lastLocation)
     
     override func buildSubviews() {
         super.buildSubviews()

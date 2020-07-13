@@ -60,7 +60,9 @@ class CharactersListViewModel {
     /**
     # THIS FUNCTION IS MERELY FOR DEMONSTRATION
         
-    - While we can map default errors from status code, maybe in some specific API one specific status code contains a body that carries a custom message to be displayed, with this function below we can handle those specif errors while still transmiting default errors.
+    - While we can map default errors from status code, maybe in some specific API one specific status code contains a
+     body that carries a custom message to be displayed, with this function below we can handle those specif errors
+     while still transmiting default errors.
      
     - Ex:
     

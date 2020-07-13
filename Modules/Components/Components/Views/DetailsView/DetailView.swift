@@ -116,9 +116,11 @@ extension DetailView: UIScrollViewDelegate {
         if topStackViewHeight.constant > 0, !isAnimating {
             self.topStackViewHeight.constant = 0
             isAnimating = true
-            UIView.animate(withDuration: 0.2, animations: {
-                self.layoutIfNeeded()
-            }, completion: { _ in self.isAnimating = false })
+            UIView.animate(
+                withDuration: 0.2,
+                animations: { self.layoutIfNeeded() },
+                completion: { _ in self.isAnimating = false }
+            )
         }
     }
     
@@ -126,9 +128,11 @@ extension DetailView: UIScrollViewDelegate {
         if topStackViewHeight.constant > 0, !isAnimating {
             self.topStackViewHeight.constant = 0
             isAnimating = true
-            UIView.animate(withDuration: 0.2, animations: {
-                self.layoutIfNeeded()
-            }, completion: { _ in self.isAnimating = false })
+            UIView.animate(
+                withDuration: 0.2,
+                animations: { self.layoutIfNeeded() },
+                completion: { _ in self.isAnimating = false }
+            )
         }
     }
 }

@@ -10,6 +10,17 @@ import Foundation
 // swiftlint:disable explicit_type_interface function_parameter_count identifier_name line_length
 // swiftlint:disable nesting type_body_length type_name
 internal enum L10n {
+
+  internal enum Details {
+    /// Gender
+    internal static let gender = L10n.tr("Localizable", "Details.Gender")
+    /// Last Location
+    internal static let lastLocation = L10n.tr("Localizable", "Details.LastLocation")
+    /// Origin
+    internal static let origin = L10n.tr("Localizable", "Details.Origin")
+    /// Species
+    internal static let species = L10n.tr("Localizable", "Details.Species")
+  }
 }
 // swiftlint:enable explicit_type_interface function_parameter_count identifier_name line_length
 // swiftlint:enable nesting type_body_length type_name

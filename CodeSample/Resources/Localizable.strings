@@ -5,3 +5,8 @@
   Created by adauto.pinheiro on 26/06/20.
   
 */
+
+"Details.Species" = "Species";
+"Details.Gender" = "Gender";
+"Details.Origin" = "Origin";
+"Details.LastLocation" = "Last Location";

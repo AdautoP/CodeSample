@@ -5,3 +5,6 @@
   Created by adauto.pinheiro on 28/06/20.
   
 */
+
+"GenericError.Title" = "Oops, something bad happened.";
+"GenericError.Subtitle" = "Sorry for the incovenience, try again.";

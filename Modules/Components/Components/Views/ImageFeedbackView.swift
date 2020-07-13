@@ -20,7 +20,7 @@ public class ImageFeedbackView: BaseView {
         $0.font = .appFont(size: 24, weight: .bold)
         $0.textColor = AppColors.Grays.darkerGray
         $0.textAlignment = .center
-        $0.text = "Oops, something bad happened."
+        $0.text = L10n.GenericError.title
         $0.numberOfLines = 0
         $0.setHugging(.defaultHigh, for: .vertical)
     }
@@ -29,7 +29,7 @@ public class ImageFeedbackView: BaseView {
         $0.font = .appFont(size: 16, weight: .regular)
         $0.textColor = AppColors.Grays.darkerGray
         $0.textAlignment = .center
-        $0.text = "Sorry for the incovenience, try again."
+        $0.text = L10n.GenericError.subtitle
         $0.numberOfLines = 0
         $0.setHugging(.defaultHigh, for: .vertical)
     }

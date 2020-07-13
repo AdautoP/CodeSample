@@ -13,10 +13,10 @@ class CharacterDetailsMapper {
             .header(character.image),
             .name(character.name),
             .status(character.status),
-            .vText(title: "Species", value: character.species),
-            .vText(title: "Gender", value: character.gender.rawValue),
-            .vText(title: "Origin", value: character.origin.name),
-            .vText(title: "Last Location", value: character.lastLocation.name)
+            .vText(title: L10n.Details.species, value: character.species),
+            .vText(title: L10n.Details.gender, value: character.gender.rawValue),
+            .vText(title: L10n.Details.origin, value: character.origin.name),
+            .vText(title: L10n.Details.lastLocation, value: character.lastLocation.name)
         ]
         
         return .init(rows: rows, episodes: character.episodes)
