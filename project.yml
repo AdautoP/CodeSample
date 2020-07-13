@@ -56,3 +56,15 @@ targets:
       
       - script: swiftlint
         name: Swiftlint
+  
+  CodeSampleTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources: CodeSampleTests
+    schemes:
+      testTargets:
+        - CodeSampleTests
+      gatherCoverageData: true
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.adauto.CodeSampleTests
