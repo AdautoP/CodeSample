@@ -11,21 +11,24 @@ import XCoordinator
 
 class CharactersListViewModel {
     private let router: WeakRouter<AppRoute>
-    private let service: RickyAndMortyService
+    private let service: RickAndMortyProvider
     
     private var page = 2
     private var lastPage = 99_999
     
     private(set) var allCharacter = [Character]()
     
-    init(router: WeakRouter<AppRoute>, service: RickyAndMortyService = .init()) {
+    init(
+        router: WeakRouter<AppRoute>,
+        service: RickAndMortyProvider = RickyAndMortyService()
+    ) {
         self.router = router
         self.service = service
     }
     
     func getCharacters(_ stored: Bool = false) -> Observable<State> {
         service
-            .requestAllCharacters()
+            .requestAllCharacters(page: nil, name: nil)
             .do(onNext: { self.lastPage = $0.info.pages })
             .map { $0.results.map { Character($0) } }
             .do(onNext: { self.allCharacter = $0 })
@@ -35,7 +38,7 @@ class CharactersListViewModel {
     
     func getCharactersByName(name: String) -> Observable<State> {
         service
-            .requestAllCharacters(name: name)
+            .requestAllCharacters(page: nil, name: name)
             .map { $0.results.map { Character($0) } }
             .map { .success($0) }
             .catchError(handleError)
@@ -44,7 +47,7 @@ class CharactersListViewModel {
     func getNewPage() -> Observable<State> {
         if page <= lastPage {
             return service
-                .requestAllCharacters(page: page)
+                .requestAllCharacters(page: page, name: nil)
                 .map { $0.results.map { Character($0) } }
                 .do(onNext: {
                     self.page += 1
@@ -68,13 +71,10 @@ class CharactersListViewModel {
     
     ```swift
     private func handleError(_ error: Error) -> Observable<State> {
-        if let customError = error as? NetworkErrors {
-            if case let .badRequest(_, body) = customError {
-                if let message = body["message"] as? String {
-                    return .just(.customMessageError(message))
-                }
+        if let networkError = (error as? NetworkErrors) {
+            if case let .badRequest(code, body) = networkError, code == 404 {
+                // DO SOMETHING ABOUT IT
             }
-            return .error(error)
         }
         return .error(error)
     }
@@ -82,11 +82,6 @@ class CharactersListViewModel {
     **/
     
     private func handleError(_ error: Error) -> Observable<State> {
-        if let networkError = (error as? NetworkErrors) {
-            if case let .badRequest(code, body) = networkError, code == 404 {
-                //
-            }
-        }
         return .error(error)
     }
     
