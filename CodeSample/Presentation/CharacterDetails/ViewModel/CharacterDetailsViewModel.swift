@@ -13,9 +13,13 @@ class CharacterDetailsViewModel {
     private let router: WeakRouter<AppRoute>
     private var character: Character
     private let mapper = CharacterDetailsMapper()
-    private let service: RickyAndMortyService
+    private let service: RickAndMortyProvider
     
-    init(router: WeakRouter<AppRoute>, character: Character, service: RickyAndMortyService = .init()) {
+    init(
+        router: WeakRouter<AppRoute>,
+        character: Character,
+        service: RickAndMortyProvider = RickyAndMortyService()
+    ) {
         self.router = router
         self.character = character
         self.service = service

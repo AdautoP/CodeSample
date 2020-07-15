@@ -9,7 +9,12 @@ import Core
 import Foundation
 import RxSwift
 
-class RickyAndMortyService {
+protocol RickAndMortyProvider {
+    func requestAllCharacters(page: Int?, name: String?) -> Observable<CharactersListResponse>
+    func requestMultipleEpisodes(_ episodeUrls: [String]) -> Observable<[EpisodeResponse]>
+}
+
+class RickyAndMortyService: RickAndMortyProvider {
     
     private let baseUrlPath = "https://rickandmortyapi.com/api"
     
