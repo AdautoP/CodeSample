@@ -40,7 +40,7 @@ class ImageViewModel {
                 .map { (UIImage(data: $0) ?? self.emptyImage) }
                 .do(onNext: { Self.cache.setObject($0, forKey: urlString as NSString) })
                 .displayable(retryAction: nil)
-                .subscribe(onNext: { self.stateSubject.onNext($0) })
+                .subscribe(onNext: { [weak self] in self?.stateSubject.onNext($0) })
         }
     }
 }

@@ -39,10 +39,10 @@ open class BaseImageView: UIImageView {
         viewModel
             .stateObservable
             .observeOn(MainScheduler.instance)
-            .do(onNext: {
+            .do(onNext: { [weak self] in
                 switch $0 {
-                case .loading: self.activityIndicator.startAnimating()
-                default: self.activityIndicator.stopAnimating()
+                case .loading: self?.activityIndicator.startAnimating()
+                default: self?.activityIndicator.stopAnimating()
                 }
             })
             .map {
