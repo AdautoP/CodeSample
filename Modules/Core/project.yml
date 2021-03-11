@@ -3,7 +3,6 @@ name: Core
 options:
   generateEmptyDirectories: true
   createIntermediateGroups: true
-  carthageBuildPath: ../../Carthage/Build
 
 targets:
   Core:
@@ -17,6 +16,6 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: "com.adauto.Core"
       
     dependencies:
-      - carthage: RxSwift
-      - carthage: RxCocoa
-      - carthage: RxRelay
+      - framework: ../../Carthage/Build/RxSwift.xcframework
+      - framework: ../../Carthage/Build/RxCocoa.xcframework
+      - framework: ../../Carthage/Build/RxRelay.xcframework

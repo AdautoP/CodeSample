@@ -1,8 +1,0 @@
-#!/bin/sh
-carthage checkout --use-ssh
-carthage build --platform iOS --no-use-binaries
-cd Carthage/Checkouts/XCoordinator           
-swift package generate-xcodeproj
-xcrun agvtool new-version -all 1
-cd -
-carthage build XCoordinator --platform iOS --no-use-binaries

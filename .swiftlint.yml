@@ -1,6 +1,7 @@
 excluded:
   - "*.generated.swift"
   - Carthage
+  - "Custom Templates"
 
 disabled_rules:
   - nesting

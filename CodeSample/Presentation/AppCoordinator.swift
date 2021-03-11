@@ -7,29 +7,30 @@
 
 import Components
 import UIKit
-import XCoordinator
 
-enum AppRoute: Route {
+enum AppAction {
     case start
     case detail(Character)
 }
 
-class AppCoordinator: NavigationCoordinator<AppRoute> {
-    init() {
-        super.init(rootViewController: BaseNavigationController(), initialRoute: .start)
-    }
+protocol AppCoordinating: AnyObject {
+    func perform(_ action: AppAction)
+}
+
+class AppCoordinator: AppCoordinating {
+    let navigationController = BaseNavigationController()
     
-    override func prepareTransition(for route: AppRoute) -> NavigationTransition {
-        switch route {
+    func perform(_ action: AppAction) {
+        switch action {
         case .start:
-            let viewModel = CharactersListViewModel(router: weakRouter)
+            let viewModel = CharactersListViewModel(coordinator: self)
             let controller = CharactersListController(viewModel: viewModel)
-            return .push(controller)
+            navigationController.pushViewController(controller, animated: true)
             
         case let .detail(character):
-            let viewModel = CharacterDetailsViewModel(router: weakRouter, character: character)
+            let viewModel = CharacterDetailsViewModel(character: character)
             let controller = CharacterDetailsController(viewModel: viewModel)
-            return .push(controller)
+            navigationController.pushViewController(controller, animated: true)
         }
     }
 }

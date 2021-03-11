@@ -22,12 +22,11 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: "com.adauto.Components"
       
     dependencies:
-      - carthage: RxSwift
-      - carthage: RxCocoa
-      - carthage: RxRelay
-      - carthage: XCoordinator
-      - carthage: TinyConstraints
-      - carthage: AloeStackView
+      - framework: ../../Carthage/Build/RxSwift.xcframework
+      - framework: ../../Carthage/Build/RxCocoa.xcframework
+      - framework: ../../Carthage/Build/RxRelay.xcframework
+      - framework: ../../Carthage/Build/TinyConstraints.xcframework
+      - framework: ../../Carthage/Build/AloeStackView.xcframework
       - target: Core/Core
 
     preBuildScripts:
