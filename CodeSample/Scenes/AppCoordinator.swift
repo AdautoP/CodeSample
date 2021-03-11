@@ -28,8 +28,10 @@ class AppCoordinator: AppCoordinating {
             navigationController.pushViewController(controller, animated: true)
             
         case let .detail(character):
-            let viewModel = CharacterDetailsViewModel(character: character)
-            let controller = CharacterDetailsController(viewModel: viewModel)
+            //            let viewModel = CharacterDetailsViewModel(character: character)
+            //            let controller = CharacterDetailsController(viewModel: viewModel)
+            
+            let controller = CharacterDetailsFactory.make(character: character)
             navigationController.pushViewController(controller, animated: true)
         }
     }

@@ -9,7 +9,7 @@ import RxCocoa
 import RxSwift
 import UIKit
 
-class CharactersListController: BaseController {
+class CharactersListController: BaseController<Any, CharactersListRootView> {
     private let disposeBag = DisposeBag()
     
     private lazy var searchController = BaseSearchController() >> {
@@ -17,22 +17,18 @@ class CharactersListController: BaseController {
     }
     
     private let viewModel: CharactersListViewModel
-    private lazy var rootView = CharactersListRootView() >> { $0.delegate = self }
     
     init(viewModel: CharactersListViewModel) {
         self.viewModel = viewModel
-        super.init()
+        super.init(interactor: ())
         title = "Characters"
         navigationItem.searchController = searchController
-    }
-    
-    override func loadView() {
-        view = rootView
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         getCharacters()
+        rootView.delegate = self
         
         searchController
             .searchBar
