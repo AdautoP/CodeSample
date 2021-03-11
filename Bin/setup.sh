@@ -48,6 +48,8 @@ function generate_xcode_project {
     cd ../..
     xcodegen
     cp -R Custom\ Templates ~/Library/Developer/Xcode/Templates/
+    carthage checkout --use-ssh
+    carthage build --platform iOS --no-use-binaries --use-xcframeworks
 
     echo "🟢 Ready to go! Opening project..."
     open "$project_path"

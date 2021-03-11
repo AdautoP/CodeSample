@@ -20,9 +20,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UIFont.registerFonts()
         UIBarButtonItem.setAppAppearance()
         
+        coordinator.perform(.start)
+        
         window = UIWindow()
         window?.makeKeyAndVisible()
-        window?.rootViewController = coordinator.rootViewController
+        window?.rootViewController = coordinator.navigationController
         
         return true
     }

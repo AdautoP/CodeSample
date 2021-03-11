@@ -7,10 +7,9 @@
 
 import Foundation
 import RxSwift
-import XCoordinator
 
 class CharactersListViewModel {
-    private let router: WeakRouter<AppRoute>
+    private weak var coordinator: AppCoordinating?
     private let service: RickAndMortyProvider
     
     private var page = 2
@@ -19,10 +18,10 @@ class CharactersListViewModel {
     private(set) var allCharacter = [Character]()
     
     init(
-        router: WeakRouter<AppRoute>,
+        coordinator: AppCoordinating,
         service: RickAndMortyProvider = RickyAndMortyService()
     ) {
-        self.router = router
+        self.coordinator = coordinator
         self.service = service
     }
     
@@ -33,7 +32,7 @@ class CharactersListViewModel {
             .map { $0.results.map { Character($0) } }
             .do(onNext: { self.allCharacter = $0 })
             .map { .success($0) }
-            .catchError(handleError)
+            .catch(handleError)
     }
     
     func getCharactersByName(name: String) -> Observable<State> {
@@ -41,7 +40,7 @@ class CharactersListViewModel {
             .requestAllCharacters(page: nil, name: name)
             .map { $0.results.map { Character($0) } }
             .map { .success($0) }
-            .catchError(handleError)
+            .catch(handleError)
     }
     
     func getNewPage() -> Observable<State> {
@@ -54,7 +53,7 @@ class CharactersListViewModel {
                     self.allCharacter += $0
                 })
                 .map { _ in .success(self.allCharacter) }
-                .catchError(handleError)
+                .catch(handleError)
         } else {
             return .just(.noMorePages)
         }
@@ -86,7 +85,7 @@ class CharactersListViewModel {
     }
     
     func selectCharacter(_ character: Character) {
-        router.trigger(.detail(character))
+        coordinator?.perform(.detail(character))
     }
     
     enum State {
