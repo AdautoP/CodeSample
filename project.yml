@@ -44,7 +44,6 @@ targets:
       - carthage: RxSwift
       - carthage: RxCocoa
       - carthage: RxRelay
-      - carthage: XCoordinator
       - carthage: TinyConstraints
       - carthage: AloeStackView
       - target: Core/Core
