@@ -23,16 +23,18 @@ class AppCoordinator: AppCoordinating {
     func perform(_ action: AppAction) {
         switch action {
         case .start:
-            let viewModel = CharactersListViewModel(coordinator: self)
-            let controller = CharactersListController(viewModel: viewModel)
+            let controller = CharactersListFactory.make(coordinatorDelegate: self)
             navigationController.pushViewController(controller, animated: true)
             
         case let .detail(character):
-            //            let viewModel = CharacterDetailsViewModel(character: character)
-            //            let controller = CharacterDetailsController(viewModel: viewModel)
-            
             let controller = CharacterDetailsFactory.make(character: character)
             navigationController.pushViewController(controller, animated: true)
         }
+    }
+}
+
+extension AppCoordinator: CharactersListCoordinatingDelegate {
+    func showCharacter(_ character: Character) {
+        perform(.detail(character))
     }
 }
