@@ -7,11 +7,20 @@
 
 import UIKit
 
-open class BaseController: UIViewController {
+open class BaseController<Interactor, RootView: UIView>: UIViewController {
     private lazy var errorView = ErrorView() >> { $0.delegate = self }
     private let loadingView = LoadingView()
     
-    public init() {
+    public let interactor: Interactor
+    public var rootView: RootView
+    
+    override public func loadView() {
+        view = rootView
+    }
+    
+    public init(interactor: Interactor) {
+        self.interactor = interactor
+        self.rootView = RootView()
         super.init(nibName: nil, bundle: nil)
     }
     

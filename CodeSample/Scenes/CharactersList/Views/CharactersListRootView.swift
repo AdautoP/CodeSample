@@ -1,8 +1,10 @@
 //
-//  CharacterListRootView.swift
+//  
+//  CharactersListRootView.swift
 //  CodeSample
 //
-//  Created by Adauto Pinheiro on 02/07/20.
+//  Created by Adauto Fernan Tavora Pinheiro on 11/03/21.
+//
 //
 
 import UIKit
@@ -33,7 +35,7 @@ class CharactersListRootView: ScreenView {
         render(.contentView(tableView))
     }
     
-    func layout(_ display: Display<CharactersListViewModel.State>) {
+    func layout(_ display: Display<CharactersListState>) {
         guard let value = display.value else { return }
         switch value {
         case let .success(characters): self.characters = characters

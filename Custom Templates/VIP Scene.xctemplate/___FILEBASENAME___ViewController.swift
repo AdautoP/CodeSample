@@ -8,7 +8,7 @@ protocol ___VARIABLE_productName:identifier___Displayable: AnyObject {
     func displaySomething()
 }
 
-class ___VARIABLE_productName:identifier___ViewController: BaseViewController<___VARIABLE_productName:identifier___Interacting, ___VARIABLE_productName:identifier___RootView> {
+class ___VARIABLE_productName:identifier___ViewController: BaseController<___VARIABLE_productName:identifier___Interacting, ___VARIABLE_productName:identifier___RootView> {
     override func viewDidLoad() {
         super.viewDidLoad()
         interactor.doSomething()
