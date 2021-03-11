@@ -5,18 +5,22 @@
 //  Created by Adauto Pinheiro on 30/06/20.
 //
 
-import Foundation
-import RxCocoa
-import RxSwift
-
-public enum URLManager {
+public enum URLSessionManager {
+    private static let decoder = JSONDecoder() >> {
+        $0.keyDecodingStrategy = .convertFromSnakeCase
+    }
     
-    private static let decoder = JSONDecoder() >> { $0.keyDecodingStrategy = .convertFromSnakeCase }
-    
-    public static func request<T: Decodable>(path: String, withMethod method: RequestMethod, body: [String: Any]? = nil) -> Observable<T> {
+    public static func request<T: Decodable>(
+        type: T.Type,
+        path: String,
+        withMethod method: RequestMethod,
+        body: [String: Any]? = nil,
+        completion: @escaping (Result<T, NetworkError>) -> Void
+    ) {
         guard let url = URL(string: path) else {
-            return .error(NetworkErrors.unavailableUrl)
+            return completion(.failure(.unavailableUrl))
         }
+        
         var request = URLRequest(url: url)
         request.httpMethod = method.rawValue
         
@@ -24,36 +28,34 @@ public enum URLManager {
             do {
                 request.httpBody = try JSONSerialization.data(withJSONObject: params, options: .fragmentsAllowed)
             } catch {
-                return .error(error)
+                completion(.failure(.badParameters))
             }
         }
-
-        return URLSession
-            .shared
-            .rx
-            .response(request: request)
-            .map { response, data in
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                completion(.failure(.commonError(error)))
+            } else if let data = data, let response = response as? HTTPURLResponse {
                 switch response.statusCode {
                 case 200..<300:
                     do {
-                        return try decoder.decode(T.self, from: data)
+                        let decodedObj = try decoder.decode(type, from: data)
+                        completion(.success(decodedObj))
                     } catch {
-                        throw NetworkErrors.decodeError
+                        completion(.failure(.decodeError))
                     }
                     
-                case 400..<500:
-                    let body = try JSONSerialization.jsonObject(with: data, options: .init()) as? [String: Any]
-                    throw NetworkErrors.badRequest(code: response.statusCode, body: body ?? [:])
-                    
                 case 500:
-                    throw NetworkErrors.internalError
-
+                    completion(.failure(.internalError))
+                    
                 default:
-                    let body = try JSONSerialization.jsonObject(with: data, options: .init()) as? [String: Any]
-                    throw NetworkErrors.unknownError(code: response.statusCode, body: body ?? [:])
+                    let body = try? JSONSerialization.jsonObject(with: data, options: .init()) as? [String: Any]
+                    completion(.failure(.unknownError(code: response.statusCode, body: body ?? [:])))
                 }
             }
         }
+        .resume()
+    }
 }
 
 public enum RequestMethod: String {

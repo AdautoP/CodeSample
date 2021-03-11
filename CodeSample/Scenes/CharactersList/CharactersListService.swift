@@ -35,6 +35,11 @@ extension CharactersListService: CharactersListServicing {
             urlComponents.queryItems?.append(URLQueryItem(name: "name", value: name))
         }
         
-        return URLManager.request(path: urlComponents.url?.absoluteString ?? "", withMethod: .get, body: nil)
+        return URLSessionManager.reactive.request(
+            type: CharactersListResponse.self,
+            path: urlComponents.url?.absoluteString ?? "",
+            withMethod: .get,
+            body: nil
+        )
     }
 }

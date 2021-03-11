@@ -23,7 +23,7 @@ class CharacterDetailsService {
     }
     
     private func requestEpisode( _ episodeUrl: String) -> Observable<EpisodeResponse> {
-        URLManager.request(path: episodeUrl, withMethod: .get)
+        URLSessionManager.reactive.request(type: EpisodeResponse.self, path: episodeUrl, withMethod: .get)
     }
 
     private func accumulate(
