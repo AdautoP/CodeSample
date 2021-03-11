@@ -40,9 +40,6 @@ function install_project_tools {
 }
 
 function generate_xcode_project {
-    cp -R Custom\ Templates ~/Library/Developer/Xcode/Templates/
-    carthage checkout --use-ssh
-    carthage build --platform iOS --no-use-binaries --use-xcframeworks
     echo "🛠  Generating xcode project..."
     cd Modules/Core
     xcodegen
@@ -53,6 +50,14 @@ function generate_xcode_project {
 
     echo "🟢 Ready to go! Opening project..."
     open "$project_path"
+}
+
+function carthage {
+    echo "🛠  Installing dependencies..."
+    cp -R Custom\ Templates ~/Library/Developer/Xcode/Templates/
+    carthage checkout --use-ssh
+    carthage build --platform iOS --no-use-binaries --use-xcframeworks
+    echo "🟢 Ready to go!"
 }
 
 function clean_derived_data {
@@ -66,6 +71,7 @@ function clean_derived_data {
 
 args=$@
 [[ ${args[*]} =~ 'init' ]] && init=true || init=false
+[[ ${args[*]} =~ 'carthage' ]] && init=true || init=false
 [[ ${args[*]} =~ 'generate' ]] && generate=true || generate=false
 [[ ${args[*]} =~ 'clean' ]] && clean=true || clean=false
 
@@ -73,6 +79,10 @@ args=$@
 # EXEC
 
 if [ "$init" = true ]; then
+    install_project_tools
+fi
+
+if [ "$carthage" = true ]; then
     install_project_tools
 fi
 
