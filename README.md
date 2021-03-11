@@ -16,7 +16,7 @@ Você pode baixar o app usando o convite para o Testflight usando [esse link](ht
 
 ## Stack
 
-- MVVM + Clean
+- VIP + Clean
 - RxSwift
 - Submódulos em Monorepo
 - XcodeGen
@@ -38,10 +38,10 @@ Você vai precisar instalar as ferramentas abaixo para rodar o projeto:
 
 Enquanto na pasta raiz do projeto, rode:
 ```sh
-./Bin/carthage-bootstrap
+./Bin/setup.sh init
 ```
 then
 
 ```sh
-./Bin/xcodegen
+./Bin/setup.sh generate
 ```
