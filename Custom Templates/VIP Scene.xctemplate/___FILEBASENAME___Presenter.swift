@@ -13,7 +13,7 @@ protocol ___VARIABLE_productName:identifier___Presenting: AnyObject {
 
 class ___VARIABLE_productName:identifier___Presenter {
     weak var display: ___VARIABLE_productName:identifier___Displayable?
-    let coordinator: ___VARIABLE_productName:identifier___Coordinating
+    private let coordinator: ___VARIABLE_productName:identifier___Coordinating
     
     init(coordinator: ___VARIABLE_productName:identifier___Coordinating) {
         self.coordinator = coordinator

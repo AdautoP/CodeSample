@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct Character {
+struct Character: Equatable {
     var id: Int
     var name: String
     var status: Status
@@ -35,7 +35,7 @@ struct Character {
         }
     }
     
-    enum Status: StatusRepresentable {
+    enum Status: StatusRepresentable, Equatable {
         case alive
         case dead
         case unknown

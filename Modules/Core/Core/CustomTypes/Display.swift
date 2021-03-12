@@ -20,11 +20,20 @@ public enum Display<Value> {
         }
     }
     
-    public func map<NewValue>(display: Display<Value>, newValue: NewValue) -> Display<NewValue> {
-        switch display {
+    public func map<NewValue>(newValue: NewValue) -> Display<NewValue> {
+        switch self {
         case .idle: return .idle
         case .loading: return .loading
         case .success: return .success(newValue)
+        case let .failure(error, tryAgain): return .failure(error, tryAgain)
+        }
+    }
+    
+    public func map<NewValue>(_ transform: (Display<Value>) -> Display<NewValue>) -> Display<NewValue> {
+        switch self {
+        case .idle: return .idle
+        case .loading: return .loading
+        case .success: return transform(self)
         case let .failure(error, tryAgain): return .failure(error, tryAgain)
         }
     }

@@ -15,15 +15,15 @@ public extension Observable {
             .map { Display.success($0) }
             .ifEmpty(default: .idle)
             .startWith(Display<Element>.loading)
-            .catchError { .just(Display.failure($0, retryAction)) }
-            .observeOn(MainScheduler.instance)
+            .catch { .just(Display.failure($0, retryAction)) }
+            .observe(on: MainScheduler.instance)
     }
 
     func displayableWithoutLoading(retryAction: (() -> Void)?) -> Observable<Display<Element>> {
         self
             .map { Display.success($0) }
             .ifEmpty(default: .idle)
-            .catchError { .just(Display.failure($0, retryAction)) }
-            .observeOn(MainScheduler.instance)
+            .catch { .just(Display.failure($0, retryAction)) }
+            .observe(on: MainScheduler.instance)
     }
 }
