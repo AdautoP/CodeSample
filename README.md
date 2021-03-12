@@ -40,7 +40,12 @@ Enquanto na pasta raiz do projeto, rode:
 ```sh
 ./Bin/setup.sh init
 ```
-then
+depois
+
+```sh
+./Bin/setup.sh carthage
+```
+depois
 
 ```sh
 ./Bin/setup.sh generate
