@@ -64,6 +64,10 @@ targets:
       testTargets:
         - CodeSampleTests
       gatherCoverageData: true
+
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.adauto.CodeSampleTests
+
+    dependencies:
+      - target: CodeSample
