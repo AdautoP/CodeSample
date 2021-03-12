@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Episode {
+struct Episode: Equatable {
     var name: String
     var airDate: String
     var seasonName: String

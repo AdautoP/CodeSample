@@ -9,7 +9,7 @@
 
 import UIKit
 
-struct CharacterScreenData {
+struct CharacterScreenData: Equatable {
     var rows: [DetailRowType]
     var episodes: [Episode]
 }

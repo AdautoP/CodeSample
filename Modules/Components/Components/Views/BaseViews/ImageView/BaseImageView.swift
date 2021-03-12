@@ -38,7 +38,7 @@ open class BaseImageView: UIImageView {
     private func bind() {
         viewModel
             .stateObservable
-            .observeOn(MainScheduler.instance)
+            .observe(on: MainScheduler.instance)
             .do(onNext: {
                 switch $0 {
                 case .loading: self.activityIndicator.startAnimating()

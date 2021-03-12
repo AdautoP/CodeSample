@@ -18,7 +18,7 @@ protocol CharacterDetailsPresenting: AnyObject {
 
 class CharacterDetailsPresenter {
     weak var display: CharacterDetailsDisplayable?
-    let coordinator: CharacterDetailsCoordinating
+    private let coordinator: CharacterDetailsCoordinating
     
     init(coordinator: CharacterDetailsCoordinating) {
         self.coordinator = coordinator
@@ -26,7 +26,7 @@ class CharacterDetailsPresenter {
     
     private func mapRows(_ character: Display<Character>) -> Display<CharacterScreenData> {
         guard let value = character.value else {
-            return character.map(display: character, newValue: .init(rows: [], episodes: []))
+            return character.map(newValue: .init(rows: [], episodes: []))
         }
         
         let rows: [DetailRowType] = [

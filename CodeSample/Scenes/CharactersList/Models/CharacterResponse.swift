@@ -28,7 +28,7 @@ struct CharacterResponse: Decodable {
     var origin: Location
     var episode: [String]
     
-    struct Location: Decodable {
+    struct Location: Decodable, Equatable {
         var name: String
     }
 }
