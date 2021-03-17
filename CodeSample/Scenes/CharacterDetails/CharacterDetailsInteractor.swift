@@ -35,8 +35,12 @@ extension CharacterDetailsInteractor: CharacterDetailsInteracting {
     func loadCharacters() {
         service
             .requestMultipleEpisodes(character.episodesUrls)
-            .map { $0.map { Episode($0) } }
-            .map { self.character.updating($0) }
+            .map { episodes in
+                episodes.map { Episode($0) }
+            }
+            .map { episodes in
+                self.character.updating(episodes)
+            }
             .displayable(retryAction: loadCharacters)
             .subscribe(onNext: { [weak self] in self?.presenter.presentCharacter($0) })
             .disposed(by: disposeBag)
