@@ -11,7 +11,7 @@ import RxSwift
 import UIKit
 
 protocol CharactersListServicing {
-    func requestAllCharacters(page: Int?, name: String?) -> Observable<CharactersListResponse>
+    func requestAllCharacters(page: Int?, name: String?, _ completion: @escaping (Result<CharactersListResponse, NetworkError>) -> Void)
 }
 
 class CharactersListService {
@@ -24,7 +24,7 @@ class CharactersListService {
 }
 
 extension CharactersListService: CharactersListServicing {
-    func requestAllCharacters(page: Int? = nil, name: String? = nil) -> Observable<CharactersListResponse> {
+    func requestAllCharacters(page: Int? = nil, name: String? = nil, _ completion: @escaping (Result<CharactersListResponse, NetworkError>) -> Void) {
         urlComponents.path = RickAndMortyEndpoints.allCharacters.rawValue
         urlComponents.queryItems = []
         if let page = page {
@@ -34,12 +34,12 @@ extension CharactersListService: CharactersListServicing {
         if let name = name {
             urlComponents.queryItems?.append(URLQueryItem(name: "name", value: name))
         }
-        
-        return URLSessionManager.reactive.request(
+
+        URLSessionManager.request(
             type: CharactersListResponse.self,
             path: urlComponents.url?.absoluteString ?? "",
             withMethod: .get,
             body: nil
-        )
+        ) { result in DispatchQueue.main.async { completion(result)}  }
     }
 }
