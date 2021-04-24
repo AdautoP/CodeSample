@@ -9,12 +9,17 @@ import Foundation
 import RxCocoa
 import RxSwift
 
+struct CharacterScreenData {
+    var rows: [DetailRowType]
+    var episodes: [Episode]
+}
+
 class CharacterDetailsController: BaseController {
     private let disposeBag = DisposeBag()
-    private let viewModel: CharacterDetailsViewModel
+    private let viewModel: CharacterDetailsViewModelType
     private let rootView = CharacterDetailsRootView()
     
-    init(viewModel: CharacterDetailsViewModel) {
+    init(viewModel: CharacterDetailsViewModelType) {
         self.viewModel = viewModel
         super.init()
     }
@@ -45,7 +50,7 @@ class CharacterDetailsController: BaseController {
 }
 
 extension CharacterDetailsController {
-    var state: Binder<Display<CharacterDetailsViewModel.ScreenData>> {
+    var state: Binder<Display<CharacterScreenData>> {
         Binder(self, binding: { controller, display in
             controller.layout(display)
             controller.rootView.layout(display)

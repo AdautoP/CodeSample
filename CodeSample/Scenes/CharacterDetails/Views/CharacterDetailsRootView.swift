@@ -17,7 +17,7 @@ class CharacterDetailsRootView: ScreenView {
         render(.contentView(detailView))
     }
     
-    func layout(_ display: Display<CharacterDetailsViewModel.ScreenData>) {
+    func layout(_ display: Display<CharacterScreenData>) {
         guard let data = display.value else { return }
         detailView.render(data.rows)
         let episodesView = EpisodesView()

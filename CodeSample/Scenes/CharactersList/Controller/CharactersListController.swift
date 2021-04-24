@@ -9,6 +9,12 @@ import RxCocoa
 import RxSwift
 import UIKit
 
+enum CharactersListState {
+    case noMorePages
+    case success([Character])
+    case customMessageError(String)
+}
+
 class CharactersListController: BaseController {
     private let disposeBag = DisposeBag()
     
@@ -16,10 +22,10 @@ class CharactersListController: BaseController {
         $0.searchBar.delegate = self
     }
     
-    private let viewModel: CharactersListViewModel
+    private let viewModel: CharactersListViewModelType
     private lazy var rootView = CharactersListRootView() >> { $0.delegate = self }
     
-    init(viewModel: CharactersListViewModel) {
+    init(viewModel: CharactersListViewModelType) {
         self.viewModel = viewModel
         super.init()
         title = "Characters"
@@ -46,7 +52,7 @@ class CharactersListController: BaseController {
     
     private func getCharacters() {
         viewModel
-            .getCharacters()
+            .getCharacters(false)
             .displayable(retryAction: getCharacters)
             .bind(to: state)
             .disposed(by: disposeBag)
@@ -63,7 +69,7 @@ class CharactersListController: BaseController {
 }
 
 extension CharactersListController {
-    var state: Binder<Display<CharactersListViewModel.State>> {
+    var state: Binder<Display<CharactersListState>> {
         Binder(self) { controller, display in
             controller.layout(display)
             controller.rootView.layout(display)

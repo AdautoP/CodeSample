@@ -8,7 +8,15 @@
 import Foundation
 import RxSwift
 
-class CharactersListViewModel {
+protocol CharactersListViewModelType: AnyObject {
+    var allCharacter: [Character] { get }
+    func getNewPage() -> Observable<CharactersListState>
+    func getCharacters(_ stored: Bool) -> Observable<CharactersListState>
+    func getCharactersByName(name: String) -> Observable<CharactersListState>
+    func selectCharacter(_ character: Character)
+}
+
+class CharactersListViewModel: CharactersListViewModelType {
     private weak var coordinator: AppCoordinating?
     private let service: RickAndMortyProvider
     
@@ -25,7 +33,7 @@ class CharactersListViewModel {
         self.service = service
     }
     
-    func getCharacters(_ stored: Bool = false) -> Observable<State> {
+    func getCharacters(_ stored: Bool = false) -> Observable<CharactersListState> {
         service
             .requestAllCharacters(page: nil, name: nil)
             .do(onNext: { self.lastPage = $0.info.pages })
@@ -35,7 +43,7 @@ class CharactersListViewModel {
             .catch(handleError)
     }
     
-    func getCharactersByName(name: String) -> Observable<State> {
+    func getCharactersByName(name: String) -> Observable<CharactersListState> {
         service
             .requestAllCharacters(page: nil, name: name)
             .map { $0.results.map { Character($0) } }
@@ -43,7 +51,7 @@ class CharactersListViewModel {
             .catch(handleError)
     }
     
-    func getNewPage() -> Observable<State> {
+    func getNewPage() -> Observable<CharactersListState> {
         if page <= lastPage {
             return service
                 .requestAllCharacters(page: page, name: nil)
@@ -80,17 +88,11 @@ class CharactersListViewModel {
     ```
     **/
     
-    private func handleError(_ error: Error) -> Observable<State> {
+    private func handleError(_ error: Error) -> Observable<CharactersListState> {
         return .error(error)
     }
     
     func selectCharacter(_ character: Character) {
         coordinator?.perform(.detail(character))
-    }
-    
-    enum State {
-        case noMorePages
-        case success([Character])
-        case customMessageError(String)
     }
 }

@@ -8,7 +8,11 @@
 import Foundation
 import RxSwift
 
-class CharacterDetailsViewModel {
+protocol CharacterDetailsViewModelType: AnyObject {
+    func getEpisodes() -> Observable<CharacterScreenData>
+}
+
+class CharacterDetailsViewModel: CharacterDetailsViewModelType {
     private var character: Character
     private let mapper = CharacterDetailsMapper()
     private let service: RickAndMortyProvider
@@ -21,16 +25,11 @@ class CharacterDetailsViewModel {
         self.service = service
     }
     
-    func getEpisodes() -> Observable<ScreenData> {
+    func getEpisodes() -> Observable<CharacterScreenData> {
         service
             .requestMultipleEpisodes(character.episodesUrls)
             .map { $0.map { Episode($0) } }
             .map { self.character.updating($0) }
             .map(mapper.mapRows)
-    }
-    
-    struct ScreenData {
-        var rows: [DetailRowType]
-        var episodes: [Episode]
     }
 }

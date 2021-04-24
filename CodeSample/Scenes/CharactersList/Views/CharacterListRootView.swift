@@ -33,7 +33,7 @@ class CharactersListRootView: ScreenView {
         render(.contentView(tableView))
     }
     
-    func layout(_ display: Display<CharactersListViewModel.State>) {
+    func layout(_ display: Display<CharactersListState>) {
         guard let value = display.value else { return }
         switch value {
         case let .success(characters): self.characters = characters

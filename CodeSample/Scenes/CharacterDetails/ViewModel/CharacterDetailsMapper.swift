@@ -8,7 +8,7 @@
 import Foundation
 
 class CharacterDetailsMapper {
-    func mapRows(_ character: Character) -> CharacterDetailsViewModel.ScreenData {
+    func mapRows(_ character: Character) -> CharacterScreenData {
         let rows: [DetailRowType] = [
             .header(character.image),
             .name(character.name),
