@@ -40,6 +40,6 @@ extension CharactersListService: CharactersListServicing {
             path: urlComponents.url?.absoluteString ?? "",
             withMethod: .get,
             body: nil
-        ) { result in DispatchQueue.main.async { completion(result)}  }
+        ) { result in DispatchQueue.main.async { completion(result) } }
     }
 }

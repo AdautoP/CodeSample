@@ -7,11 +7,10 @@
 //
 //
 
-import RxSwift
 import UIKit
 
 protocol CharacterDetailsServicing {
-    func requestMultipleEpisodes(_ episodeUrls: [String]) -> Observable<[EpisodeResponse]>
+    func requestMultipleEpisodes(_ episodeUrls: [String], _ completion: @escaping (Result<[EpisodeResponse], NetworkError>) -> Void)
 }
 
 class CharacterDetailsService {
@@ -21,26 +20,38 @@ class CharacterDetailsService {
         $0.scheme = "https"
         $0.host = "rickandmortyapi.com"
     }
-    
-    private func requestEpisode( _ episodeUrl: String) -> Observable<EpisodeResponse> {
-        URLSessionManager.reactive.request(type: EpisodeResponse.self, path: episodeUrl, withMethod: .get)
-    }
-
-    private func accumulate(
-        accumulatedEpisodes: AccumulatedEpisodes,
-        episode: EpisodeResponse
-    ) throws -> AccumulatedEpisodes {
-        accumulatedEpisodes.episodes.append(episode)
-        return accumulatedEpisodes
-    }
 }
 
 extension CharacterDetailsService: CharacterDetailsServicing {
-    func requestMultipleEpisodes(_ episodeUrls: [String]) -> Observable<[EpisodeResponse]> {
-        Observable
-            .from(episodeUrls)
-            .concatMap(requestEpisode)
-            .reduce(AccumulatedEpisodes(), accumulator: accumulate)
-            .map { $0.episodes }
+    func requestMultipleEpisodes(_ episodeUrls: [String], _ completion: @escaping (Result<[EpisodeResponse], NetworkError>) -> Void) {
+        let dispatchGroup = DispatchGroup()
+        var episodes = [EpisodeResponse]()
+        var networkError: NetworkError?
+        episodeUrls.forEach {
+            dispatchGroup.enter()
+            URLSessionManager.request(
+                type: EpisodeResponse.self,
+                path: $0,
+                withMethod: .get
+            ) { result in
+                switch result {
+                case let .success(episode):
+                    episodes.append(episode)
+
+                case let .failure(error):
+                    networkError = .commonError(error)
+                }
+
+                dispatchGroup.leave()
+            }
+        }
+
+        dispatchGroup.notify(queue: .main) {
+            if !episodes.isEmpty {
+                completion(.success(episodes))
+            } else if let networkError = networkError {
+                completion(.failure(networkError))
+            }
+        }
     }
 }
