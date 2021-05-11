@@ -26,11 +26,15 @@ fileprivate final class CharacterDetailsPresenterMock: CharacterDetailsPresentin
 }
 
 fileprivate final class CharacterDetailsServiceMock: CharacterDetailsServicing {
-    var expectedResult: Observable<[EpisodeResponse]> = .just([.init(name: "Ep 1", airDate: "01/01/2001", episode: "Ep 1", characters: [])])
-    
-    func requestMultipleEpisodes(_ episodeUrls: [String]) -> Observable<[EpisodeResponse]> {
-        expectedResult
+    func requestMultipleEpisodes(_ episodeUrls: [String], _ completion: @escaping (Result<[EpisodeResponse], NetworkError>) -> Void) {
+        completion(expectedResult)
     }
+
+    var expectedResult: Result<[EpisodeResponse], NetworkError> = .success(
+        [
+            .init(name: "Ep 1", airDate: "01/01/2001", episode: "Ep 1", characters: [])
+        ]
+    )
 }
 
 extension Display where Value == Character {
@@ -64,7 +68,7 @@ final class CharacterDetailsInteractorTests: XCTestCase {
         lastLocation: .init(name: "Earth"),
         origin: .init(name: "Earth"),
         gender: .male,
-        episodes: [],
+        episodes: [.init(.init(name: "Ep 1", airDate: "01/01/2001", episode: "Ep 1", characters: []))],
         episodesUrls: []
     )
     
@@ -74,17 +78,17 @@ final class CharacterDetailsInteractorTests: XCTestCase {
         character: character
         )
     
-//    func testLoadCharacter_WhenRequestSucceeds_ShowPresentCharacter() {
-//        sut.loadCharacters()
-//        XCTAssertEqual(presenterMock.didPresentCharacter, 2)
-//        XCTAssertTrue(presenterMock.characterDisplay ?? .idle == .success(character))
-//    }
-//
-//    func testLoadCharacter_WhenRequestFails_ShowPresentFailure() {
-//        let error = Display<Character>.failure(NetworkError.unavailableUrl, nil)
-//        serviceMock.expectedResult = .error(NetworkError.unavailableUrl)
-//        sut.loadCharacters()
-//        XCTAssertEqual(presenterMock.didPresentCharacter, 2)
-//        XCTAssertTrue(presenterMock.characterDisplay ?? .idle == error)
-//    }
+    func testLoadCharacter_WhenRequestSucceeds_ShowPresentCharacter() {
+        sut.loadCharacters()
+        XCTAssertEqual(presenterMock.didPresentCharacter, 2)
+        XCTAssertTrue(presenterMock.characterDisplay ?? .idle == .success(character))
+    }
+
+    func testLoadCharacter_WhenRequestFails_ShowPresentFailure() {
+        let error = Display<Character>.failure(NetworkError.unavailableUrl, nil)
+        serviceMock.expectedResult = .failure(.unavailableUrl)
+        sut.loadCharacters()
+        XCTAssertEqual(presenterMock.didPresentCharacter, 2)
+        XCTAssertTrue(presenterMock.characterDisplay ?? .idle == error)
+    }
 }
