@@ -21,6 +21,6 @@ class CharacterDetailsCoordinator {}
 
 extension CharacterDetailsCoordinator: CharacterDetailsCoordinating {
     func perform(_ action: CharacterDetailsAction) {
-        // da um push numa navigation ou qualquer merda
+        // da um push numa navigation ou algum fluxo 
     }
 }

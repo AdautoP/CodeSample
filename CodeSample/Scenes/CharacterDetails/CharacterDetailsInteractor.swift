@@ -33,12 +33,18 @@ class CharacterDetailsInteractor {
 
 extension CharacterDetailsInteractor: CharacterDetailsInteracting {
     func loadCharacters() {
+        presenter.presentCharacter(.loading)
         service
-            .requestMultipleEpisodes(character.episodesUrls)
-            .map { $0.map { Episode($0) } }
-            .map { self.character.updating($0) }
-            .displayable(retryAction: loadCharacters)
-            .subscribe(onNext: { [weak self] in self?.presenter.presentCharacter($0) })
-            .disposed(by: disposeBag)
+            .requestMultipleEpisodes(character.episodesUrls) { result in
+                switch result {
+                case let .success(episodeResponses):
+                    let episodes = episodeResponses.map { Episode($0) }
+                    self.character.updating(episodes)
+                    self.presenter.presentCharacter(.success(self.character))
+                    
+                case let .failure(error):
+                    self.presenter.presentCharacter(.failure(error, self.loadCharacters))
+                }
+            }
     }
 }

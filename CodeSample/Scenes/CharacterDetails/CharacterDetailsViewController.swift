@@ -42,6 +42,6 @@ extension CharacterDetailsViewController: CharacterDetailsDisplayable {
 
 extension CharacterDetailsViewController: CharacterDetailsRootViewDelegate {
     func didHappenSomething() {
-        // ai chama outra acao do interactor que eu nao vou criar pq nao sou puta vcs entenderam
+        // ai chama outra acao do interactor
     }
 }

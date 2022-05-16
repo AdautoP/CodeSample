@@ -33,8 +33,8 @@ class CharactersListViewController: BaseController<CharactersListInteracting, Ch
         title = "Characters"
         navigationItem.searchController = searchController
         rootView.delegate = self
-        interactor.loadCharacters(false)
-        
+        getCharacters()
+
         searchController
             .searchBar
             .searchTextField
@@ -42,10 +42,20 @@ class CharactersListViewController: BaseController<CharactersListInteracting, Ch
             .controlEvent(.editingDidEnd)
             .subscribe(onNext: { [weak self] in
                 if let text = self?.searchController.searchBar.text, !text.isEmpty {
-                    self?.interactor.loadCharactersByName(name: text)
+                    self?.loadCharactersByName(text)
                 }
             })
             .disposed(by: disposeBag)
+    }
+
+    private func getCharacters() {
+        interactor.loadCharacters(false) { [weak self] in self?.getCharacters() }
+    }
+
+    private func loadCharactersByName(_ name: String) {
+        interactor.loadCharactersByName(name: name) { [weak self] in
+            self?.loadCharactersByName(name)
+        }
     }
 }
 
@@ -58,7 +68,7 @@ extension CharactersListViewController: CharactersListDisplayable {
 
 extension CharactersListViewController: CharactersListRootViewDelegate {
     func fetchMoreItems() {
-        interactor.loadNewPage()
+        interactor.loadNewPage { [weak self] in self?.fetchMoreItems() }
     }
     
     func didSelect(character: Character) {
@@ -67,10 +77,9 @@ extension CharactersListViewController: CharactersListRootViewDelegate {
 }
 
 extension CharactersListViewController: UISearchBarDelegate {
-    
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         guard searchText.isEmpty else { return }
-        displayState(.success(.success(interactor.allCharacter)))
+        interactor.cancelSearch()
     }
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
@@ -82,6 +91,6 @@ extension CharactersListViewController: UISearchBarDelegate {
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        displayState(.success(.success(interactor.allCharacter)))
+        interactor.cancelSearch()
     }
 }
