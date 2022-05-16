@@ -22,11 +22,6 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: "com.adauto.Components"
       
     dependencies:
-      - framework: ../../Carthage/Build/RxSwift.xcframework
-      - framework: ../../Carthage/Build/RxCocoa.xcframework
-      - framework: ../../Carthage/Build/RxRelay.xcframework
-      - framework: ../../Carthage/Build/TinyConstraints.xcframework
-      - framework: ../../Carthage/Build/AloeStackView.xcframework
       - target: Core/Core
 
     preBuildScripts:

@@ -14,8 +14,3 @@ targets:
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: "com.adauto.Core"
-      
-    dependencies:
-      - framework: ../../Carthage/Build/RxSwift.xcframework
-      - framework: ../../Carthage/Build/RxCocoa.xcframework
-      - framework: ../../Carthage/Build/RxRelay.xcframework

@@ -41,11 +41,6 @@ targets:
           PROVISIONING_PROFILE_SPECIFIER: "match AppStore com.adauto.CodeSample"
 
     dependencies:
-      - framework: Carthage/Build/RxSwift.xcframework
-      - framework: Carthage/Build/RxCocoa.xcframework
-      - framework: Carthage/Build/RxRelay.xcframework
-      - framework: Carthage/Build/TinyConstraints.xcframework
-      - framework: Carthage/Build/AloeStackView.xcframework
       - target: Core/Core
       - target: Components/Components
 
